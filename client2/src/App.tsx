@@ -1,7 +1,13 @@
 import "./App.css";
 import { ProjectsApi } from "./api/apis/ProjectsApi"; // Add this line
 import { Configuration } from "./api";
-import { Button } from "./components/ui/button";
+import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 function App() {
   const projectsApi = new ProjectsApi(
@@ -29,6 +35,15 @@ function App() {
       <Button variant="outline" onClick={handleButtonClick}>
         Another Button
       </Button>
+
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionContent>
+            Yes. It adheres to the WAI-ARIA design pattern.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </>
   );
 }
