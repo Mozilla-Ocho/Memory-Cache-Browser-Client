@@ -4,8 +4,7 @@ Plan:
 - [x] Use create-react-app with typescript enabled
 - [x] Add openapi generator as a dependency
 - [x] Generate client code from the openapi spec
-- [ ] Compare fetch and axios and decide which to use
-- [ ] Serve the built client code as static files from the backend
+- [x] Serve the built client code as static files from the backend
 - [ ] Pair with Nick to get add a simple dashboard
 - [ ] Pair with Kate to configure styling
 - [ ] Reflect on version 1 and decide what to do next
@@ -60,9 +59,3 @@ function App() {
 export default App;
 ```
 
-
-# Generating Client Code from the OpenAPI Spec
-
-- Run Memory Cache Hub.
-- Download openapi.json: `wget http://localhost:4444/openapi.json`
-- Generate client code: `npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-axios -o my-app/src/api`
