@@ -62,3 +62,28 @@ Plan:
 - [x] Copy client1 to client2
 - [ ] Install shadcn ui
 - [ ] Try building a simple dashboard with shadcn ui components
+
+## Dev Log
+
+I copied `client1` to `client2`
+
+``` sh
+cp -r client1 client2
+```
+
+I set up tailwindcss
+
+``` sh
+npm install -D tailwindcss
+npx tailwindcss init
+```
+
+``` diff
+modified   client2/tailwind.config.js
+@@ -1,6 +1,6 @@
+ /** @type {import('tailwindcss').Config} */
+ module.exports = {
+-  content: [],
++  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+```
+

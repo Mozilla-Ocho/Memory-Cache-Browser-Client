@@ -16,7 +16,14 @@ function App() {
     }
   };
 
-  return <button onClick={handleButtonClick}>List Projects</button>;
+  return (
+    <button
+      className="text-3xl font-bold underline"
+      onClick={handleButtonClick}
+    >
+      List Projects
+    </button>
+  );
 }
 
 export default App;
