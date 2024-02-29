@@ -1,46 +1,89 @@
-# Getting Started with Create React App
+# client1
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Plan:
+- [x] Use create-react-app with typescript enabled
+- [x] Add openapi generator as a dependency
+- [x] Generate client code from the openapi spec
+- [x] Serve the built client code as static files from the backend
 
-## Available Scripts
+## Dev Log
 
-In the project directory, you can run:
+I created a new react app with typescript enabled.
+``` sh
+npx create-react-app client1 --template typescript
+cd client1
+```
 
-### `npm start`
+I added openapi generator as a dev dependency.
+``` sh
+npm install @openapitools/openapi-generator-cli -D
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+I downloaded the openapi spec from memory cache hub. 
+```sh
+wget http://localhost:4444/openapi.json
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+I generate typescript-fetch client code from the openapi spec.
+``` sh
+npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-fetch -o src/api
+```
 
-### `npm test`
+I tested the generated code:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+``` ts
+import "./App.css";
+import { ProjectsApi } from "./api/apis/ProjectsApi"; // Add this line
+import { Configuration } from "./api";
 
-### `npm run build`
+function App() {
+  const projectsApi = new ProjectsApi(
+    new Configuration({ basePath: "http://localhost:4444" }),
+  );
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  const handleButtonClick = async () => {
+    try {
+      const result = await projectsApi.listProjectsApiV1ListProjectsGet();
+      console.log(result);
+    } catch (error) {
+      console.error("Failed to list projects:", error);
+    }
+  };
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  return <button onClick={handleButtonClick}>List Projects</button>;
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export default App;
+```
 
-### `npm run eject`
+# client2
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Plan:
+- [x] Copy client1 to client2
+- [ ] Install shadcn ui
+- [ ] Try building a simple dashboard with shadcn ui components
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Dev Log
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+I copied `client1` to `client2`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+``` sh
+cp -r client1 client2
+```
 
-## Learn More
+I set up tailwindcss
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+``` sh
+npm install -D tailwindcss
+npx tailwindcss init
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+``` diff
+modified   client2/tailwind.config.js
+@@ -1,6 +1,6 @@
+ /** @type {import('tailwindcss').Config} */
+ module.exports = {
+-  content: [],
++  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+```
+
