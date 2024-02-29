@@ -1,13 +1,10 @@
-# Memory Cache Browser Client (Attempt 1)
+# client1
 
 Plan:
 - [x] Use create-react-app with typescript enabled
 - [x] Add openapi generator as a dependency
 - [x] Generate client code from the openapi spec
 - [x] Serve the built client code as static files from the backend
-- [ ] Pair with Nick to get add a simple dashboard
-- [ ] Pair with Kate to configure styling
-- [ ] Reflect on version 1 and decide what to do next
 
 ## Dev Log
 
@@ -59,3 +56,9 @@ function App() {
 export default App;
 ```
 
+# client2
+
+Plan:
+- [x] Copy client1 to client2
+- [ ] Install shadcn ui
+- [ ] Try building a simple dashboard with shadcn ui components
