@@ -1,0 +1,19 @@
+.main_nav {
+  &_wrapper {
+    padding: 12px;
+    border-bottom: 1px solid #000000;
+  }
+  &_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &_contents {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+.search {
+  width: 300px;
+}
