@@ -21,12 +21,13 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     }
   },
   "include": [
     "**/*.js",
     "**/*.jsx",
-    "tailwind.config.ts"
+    "tailwind.config.ts",
+    "src"
   ],
 }
