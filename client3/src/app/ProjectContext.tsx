@@ -5,12 +5,24 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
+import { Project } from "../api/models/Project";
+import { ProjectsApi } from "../api/apis/ProjectsApi";
+import { Configuration } from "../api";
 
-export interface Project {
-  id: string;
-  name: string;
-  // Add more attributes here as needed
-}
+//export interface Project {
+//    /**
+//     *
+//     * @type {string}
+//     * @memberof Project
+//     */
+//    projectName: string;
+//    /**
+//     *
+//     * @type {string}
+//     * @memberof Project
+//     */
+//    projectId: string;
+//}
 
 interface ProjectContextType {
   projects: Project[];
@@ -36,28 +48,18 @@ interface ProjectProviderProps {
 export const ProjectProvider: React.FC<ProjectProviderProps> = ({
   children,
 }) => {
-  const [projects, setProjects] = useState<Project[]>([
-    { id: "0", name: "Loading..." },
-  ]);
-  const [activeProjectId, setActiveProjectId] = useState<string | null>("0");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
 
-  const fetchProjects = async () => {
-    // Fetch projects from the backend
-    // This is a placeholder, replace with your actual fetch call
-    /* const response = await fetch('/api/projects');
-     * const projects = await response.json(); */
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    setProjects([
-      { id: "aa1", name: "Project 1" },
-      { id: "bb2", name: "Project 2" },
-      { id: "cc3", name: "Project 3" },
-      { id: "dd4", name: "Project 4" },
-    ]);
-  };
+  const projectsApi = new ProjectsApi(
+    new Configuration({ basePath: "http://localhost:4444" }),
+  );
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
+  async function fetchProjects() {
+    const result = await projectsApi.listProjectsApiV1ListProjectsGet();
+    console.log(result);
+    setProjects(result.projects);
+  }
 
   return (
     <ProjectContext.Provider
