@@ -7,6 +7,7 @@ export * from './GetOrCreateProjectRequest';
 export * from './HTTPValidationError';
 export * from './IngestProjectFilesRequest';
 export * from './ListProjectsResponse';
+export * from './Project';
 export * from './RagAskRequest';
 export * from './SummarizeFileRequest';
 export * from './ValidationError';

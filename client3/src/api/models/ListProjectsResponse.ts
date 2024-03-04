@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Project } from './Project';
+import {
+    ProjectFromJSON,
+    ProjectFromJSONTyped,
+    ProjectToJSON,
+} from './Project';
+
 /**
  * 
  * @export
@@ -21,10 +28,10 @@ import { exists, mapValues } from '../runtime';
 export interface ListProjectsResponse {
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<Project>}
      * @memberof ListProjectsResponse
      */
-    projects: Array<string>;
+    projects: Array<Project>;
 }
 
 /**
@@ -47,7 +54,7 @@ export function ListProjectsResponseFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'projects': json['projects'],
+        'projects': ((json['projects'] as Array<any>).map(ProjectFromJSON)),
     };
 }
 
@@ -60,7 +67,7 @@ export function ListProjectsResponseToJSON(value?: ListProjectsResponse | null):
     }
     return {
         
-        'projects': value.projects,
+        'projects': ((value.projects as Array<any>).map(ProjectToJSON)),
     };
 }
 
