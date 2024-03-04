@@ -2,20 +2,16 @@ import React from "react";
 import { useProject } from "./ProjectContext"; // Adjust the import path as necessary
 
 const Dashboard: React.FC = () => {
-  const { setActiveProject } = useProject();
+  const { projects, activeProjectId, setActiveProjectId } = useProject();
 
-  const changeActiveProject = (projectId: string) => {
-    setActiveProject(projectId);
-  };
+  const selectedProject = projects.find(
+    (project) => project.id === activeProjectId,
+  ) || { name: "No project selected", id: "-1" };
 
   return (
     <div>
-      <button onClick={() => changeActiveProject("123")}>
-        Change Active Project
-      </button>
-      <button onClick={() => changeActiveProject("245")}>
-        Change Active Project
-      </button>
+      <h1>Dashboard</h1>
+      <p>Selected project: {selectedProject.name}</p>
     </div>
   );
 };

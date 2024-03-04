@@ -12,6 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import ProjectSelectionListBox from "./ProjectSelectionListBox";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
@@ -183,6 +184,9 @@ export default function DarkSidebar() {
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
+                    <li key={"project-selection-list-box"}>
+                      <ProjectSelectionListBox />
+                    </li>
                     {navigation.map((item) => (
                       <li key={item.name}>
                         <Link

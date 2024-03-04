@@ -4,7 +4,7 @@ import { ProjectProvider } from "./ProjectContext"; // Adjust the import path as
 import Dashboard from "./Dashboard";
 import DocumentStore from "./DocumentStore";
 import Projects from "./Projects";
-import Sidebar from "../components/DarkSidebar";
+import Sidebar from "./DarkSidebar";
 
 const router = createBrowserRouter([
   {
