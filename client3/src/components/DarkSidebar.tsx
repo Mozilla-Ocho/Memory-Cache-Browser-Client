@@ -15,11 +15,13 @@ import { Outlet } from "react-router-dom";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
-  { name: "Team", href: "/", icon: UsersIcon, current: false },
   { name: "Projects", href: "/projects", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  {
+    name: "Documents",
+    href: "documents",
+    icon: DocumentDuplicateIcon,
+    current: false,
+  },
 ];
 const teams = [
   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
@@ -31,7 +33,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function DarkSidebar(props) {
+export default function DarkSidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
