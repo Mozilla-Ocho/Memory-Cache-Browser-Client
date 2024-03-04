@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useProject } from "./ProjectContext";
 import ProjectFileList from "./ProjectFileList";
+import ProjectSelectionListBox from "./ProjectSelectionListBox";
+import GetStarted from "./GetStarted";
 
 const Dashboard: React.FC = () => {
   const {
@@ -16,15 +18,13 @@ const Dashboard: React.FC = () => {
     summariesApi,
   } = useProject();
 
+  const updateProjects = async () => {
+    const response = await projectsApi.listProjectsApiV1ListProjectsGet();
+    setProjects(response.projects);
+  };
+
   useEffect(() => {
-    projectsApi
-      .listProjectsApiV1ListProjectsGet()
-      .then((response) => {
-        setProjects(response.projects);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    updateProjects();
   }, []);
 
   const [projectFileList, setProjectFileList] = useState<string[]>([]);
@@ -43,11 +43,39 @@ const Dashboard: React.FC = () => {
     }
   }, [activeProject]);
 
+  if (projects.length === 0) {
+    return <GetStarted />;
+  }
+
+  const deleteActiveProject = async () => {
+    const activeProjectName = activeProject.projectName;
+    setActiveProject(undefined);
+    await projectsApi.deleteProjectApiV1DeleteProjectDelete({
+      deleteProjectRequest: { projectName: activeProjectName },
+    });
+    updateProjects();
+  };
+
   return (
     <div>
       <h1>Dashboard</h1>
-      <p>Selected project: {activeProject && activeProject.projectName}</p>
-      <ProjectFileList projectFileList={projectFileList} />
+
+      <ProjectSelectionListBox />
+
+      {/* Show the delete project button only if there is an active project */}
+
+      {activeProject && (
+        <>
+          <button
+            onClick={deleteActiveProject}
+            type="button"
+            className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+          >
+            Delete Project
+          </button>
+          <ProjectFileList projectFileList={projectFileList} />
+        </>
+      )}
     </div>
   );
 };
