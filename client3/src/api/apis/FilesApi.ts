@@ -15,15 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
+  AddDirectoryToProjectRequest,
   DeleteFileRequest,
   HTTPValidationError,
 } from '../models/index';
 import {
+    AddDirectoryToProjectRequestFromJSON,
+    AddDirectoryToProjectRequestToJSON,
     DeleteFileRequestFromJSON,
     DeleteFileRequestToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
 } from '../models/index';
+
+export interface ApiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRequest {
+    addDirectoryToProjectRequest: AddDirectoryToProjectRequest;
+}
 
 export interface DeleteFileApiV1DeleteFileDeleteRequest {
     deleteFileRequest: DeleteFileRequest;
@@ -43,6 +50,43 @@ export interface UploadFileApiV1UploadFilePostRequest {
  * 
  */
 export class FilesApi extends runtime.BaseAPI {
+
+    /**
+     * Api Add Directory To Project
+     */
+    async apiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRaw(requestParameters: ApiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.addDirectoryToProjectRequest === null || requestParameters.addDirectoryToProjectRequest === undefined) {
+            throw new runtime.RequiredError('addDirectoryToProjectRequest','Required parameter requestParameters.addDirectoryToProjectRequest was null or undefined when calling apiAddDirectoryToProjectApiV1AddDirectoryToProjectPost.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/v1/add_directory_to_project`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddDirectoryToProjectRequestToJSON(requestParameters.addDirectoryToProjectRequest),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Api Add Directory To Project
+     */
+    async apiAddDirectoryToProjectApiV1AddDirectoryToProjectPost(requestParameters: ApiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.apiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Delete File

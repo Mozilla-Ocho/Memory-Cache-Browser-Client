@@ -1,22 +1,53 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useProject } from "./ProjectContext";
+import ProjectFileList from "./ProjectFileList";
 
 const Dashboard: React.FC = () => {
-  const { projects, activeProjectId, setActiveProjectId, fetchProjects } =
-    useProject();
-
-  const selectedProject = projects.find(
-    (project) => project.id === activeProjectId,
-  ) || { name: "No project selected", id: "-1" };
+  const {
+    projects,
+    setProjects,
+    activeProject,
+    setActiveProject,
+    filesApi,
+    ingestApi,
+    llamafileApi,
+    projectsApi,
+    ragApi,
+    summariesApi,
+  } = useProject();
 
   useEffect(() => {
-    fetchProjects();
+    projectsApi
+      .listProjectsApiV1ListProjectsGet()
+      .then((response) => {
+        setProjects(response.projects);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
+
+  const [projectFileList, setProjectFileList] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (activeProject) {
+      filesApi
+        .listFilesApiV1ListFilesProjectNameGet({
+          projectName: activeProject.projectName,
+        })
+        // Sort
+        .then((response) => {
+          return response.sort();
+        })
+        .then(setProjectFileList);
+    }
+  }, [activeProject]);
 
   return (
     <div>
       <h1>Dashboard</h1>
-      <p>Selected project: {selectedProject.name}</p>
+      <p>Selected project: {activeProject && activeProject.projectName}</p>
+      <ProjectFileList projectFileList={projectFileList} />
     </div>
   );
 };

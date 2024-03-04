@@ -6,29 +6,25 @@ import React, {
   ReactNode,
 } from "react";
 import { Project } from "../api/models/Project";
+import { FilesApi } from "../api/apis/FilesApi";
+import { IngestApi } from "../api/apis/IngestApi";
+import { LlamafileApi } from "../api/apis/LlamafileApi";
 import { ProjectsApi } from "../api/apis/ProjectsApi";
+import { RagApi } from "../api/apis/RagApi";
+import { SummariesApi } from "../api/apis/SummariesApi";
 import { Configuration } from "../api";
-
-//export interface Project {
-//    /**
-//     *
-//     * @type {string}
-//     * @memberof Project
-//     */
-//    projectName: string;
-//    /**
-//     *
-//     * @type {string}
-//     * @memberof Project
-//     */
-//    projectId: string;
-//}
 
 interface ProjectContextType {
   projects: Project[];
-  activeProjectId: string | null;
-  setActiveProjectId: (id: string | null) => void;
-  fetchProjects: () => void;
+  setProjects: (projects: Project[]) => void;
+  activeProject: Project | null;
+  setActiveProject: (project: Project) => void;
+  filesApi: FilesApi;
+  ingestApi: IngestApi;
+  llamafileApi: LlamafileApi;
+  projectsApi: ProjectsApi;
+  ragApi: RagApi;
+  summariesApi: SummariesApi;
 }
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
@@ -45,25 +41,39 @@ interface ProjectProviderProps {
   children: ReactNode;
 }
 
+// TODO: ProjectProvider is probably not the right name for this component.
+//       For now my plan is just to put a bunch of global state in here.
 export const ProjectProvider: React.FC<ProjectProviderProps> = ({
   children,
 }) => {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
 
-  const projectsApi = new ProjectsApi(
-    new Configuration({ basePath: "http://localhost:4444" }),
-  );
+  const configuration = new Configuration({
+    basePath: "http://localhost:4444",
+  });
 
-  async function fetchProjects() {
-    const result = await projectsApi.listProjectsApiV1ListProjectsGet();
-    console.log(result);
-    setProjects(result.projects);
-  }
+  const filesApi = new FilesApi(configuration);
+  const ingestApi = new IngestApi(configuration);
+  const llamafileApi = new LlamafileApi(configuration);
+  const projectsApi = new ProjectsApi(configuration);
+  const ragApi = new RagApi(configuration);
+  const summariesApi = new SummariesApi(configuration);
 
   return (
     <ProjectContext.Provider
-      value={{ projects, activeProjectId, setActiveProjectId, fetchProjects }}
+      value={{
+        projects,
+        setProjects,
+        activeProject,
+        setActiveProject,
+        filesApi,
+        ingestApi,
+        llamafileApi,
+        projectsApi,
+        ragApi,
+        summariesApi,
+      }}
     >
       {children}
     </ProjectContext.Provider>

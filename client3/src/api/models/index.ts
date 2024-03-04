@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AddDirectoryToProjectRequest';
 export * from './DeleteFileRequest';
 export * from './DeleteProjectRequest';
 export * from './DownloadLlamafileByNameRequest';

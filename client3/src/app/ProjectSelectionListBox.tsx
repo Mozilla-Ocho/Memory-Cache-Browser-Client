@@ -9,18 +9,20 @@ function classNames(...classes) {
 }
 
 export default function Example() {
-  const { projects, activeProjectId, setActiveProjectId } = useProject();
-
-  const handleChange = (project: Project) => {
-    setActiveProjectId(project.projectId);
-  };
-
-  const selectedProject = projects.find(
-    (project) => project.projectId === activeProjectId,
-  );
-
+  const {
+    projects,
+    /* setProjects, */
+    activeProject,
+    setActiveProject,
+    /* filesApi, */
+    /* ingestApi, */
+    /* llamafileApi, */
+    /* projectsApi, */
+    /* ragApi, */
+    /* summariesApi, */
+  } = useProject();
   return (
-    <Listbox value={activeProjectId} onChange={handleChange}>
+    <Listbox value={activeProject} onChange={setActiveProject}>
       {({ open }) => (
         <>
           <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">
@@ -29,7 +31,7 @@ export default function Example() {
           <div className="relative mt-2">
             <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
               <span className="block truncate">
-                {(selectedProject && selectedProject.projectName) ||
+                {(activeProject && activeProject.projectName) ||
                   "Select project..."}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
