@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { useProject } from "./ProjectContext"; // Adjust the import path as necessary
+import { useProject } from "./ProjectContext";
 import { Project } from "../api/models/Project";
 
 function classNames(...classes) {

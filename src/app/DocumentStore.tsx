@@ -1,5 +1,5 @@
 import React from "react";
-import { useProject } from "./ProjectContext"; // Adjust the import path as necessary
+import { useProject } from "./ProjectContext";
 
 const DocumentStore: React.FC = () => {
   return <h1>TODO</h1>;

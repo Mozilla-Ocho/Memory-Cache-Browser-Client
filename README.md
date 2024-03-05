@@ -66,6 +66,7 @@ Further instructions for building releases are in the [Memory Cache Hub README](
 - [ ] Create job queue for each project and allow users to view and manage jobs.
 - [ ] Expose rag ask api
 - [ ] Support updating/changing project settings (name, directories, etc).
+- [ ] Fix selection in sidebar
 
 ## Job Queues
 

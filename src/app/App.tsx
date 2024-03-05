@@ -1,10 +1,13 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ProjectProvider } from "./ProjectContext"; // Adjust the import path as necessary
-import Dashboard from "./Dashboard";
-import DocumentStore from "./DocumentStore";
-import Projects from "./Projects";
+import { ProjectProvider } from "./ProjectContext";
 import Sidebar from "./DarkSidebar";
+import Dashboard from "./Dashboard";
+import Projects from "./Projects";
+import Models from "./Models";
+import Prompts from "./Prompts";
+import JobsQueue from "./JobsQueue";
+import Project from "./Project";
 
 const router = createBrowserRouter([
   {
@@ -13,12 +16,10 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Dashboard />, index: true },
       { path: "dashboard", element: <Dashboard /> },
-      { path: "projects", element: <Projects /> },
-      { path: "documents", element: <DocumentStore /> },
-      { path: "projects/:projectId", element: <Dashboard /> },
-      // The way the :projectId works is that it's a URL parameter that can be accessed in the component
-      // using the useParams hook from react-router-dom. For example:
-      // const { projectId } = useParams();
+      { path: "models", element: <Models /> },
+      { path: "prompts", element: <Prompts /> },
+      { path: "jobs", element: <JobsQueue /> },
+      { path: "projects/:projectId", element: <Project /> },
     ],
   },
 ]);
