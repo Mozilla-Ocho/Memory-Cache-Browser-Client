@@ -31,6 +31,21 @@ Memory Cache consists of three separate components:
 
 This repository contains the source code for the Memory Cache Browser Client.
 
+Install prerequisites with:
+
+``` sh
+sudo corepack enable
+yarn install
+```
+
+Run the development server with:
+
+``` sh
+yarn parcel src/index.html
+```
+
+The code for interacting with the Memory Cache Hub in `src/api` is generated from an [OpenAPI specification](https://swagger.io/specification/). To regenerate this code, make sure the Memory Cache Hub is running, and then run `scripts/regenerate_api.sh`.
+
 ### Working with Memory Cache Hub
 
 There are three ways to work with Memory Cache Hub:
