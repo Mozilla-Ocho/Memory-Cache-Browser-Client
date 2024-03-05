@@ -62,7 +62,7 @@ export const ProjectProvider: React.FC<ProjectProviderProps> = ({
 
   const reloadProjects = async () => {
     const response = await projectsApi.listProjectsApiV1ListProjectsGet();
-    setProjects(response.projects);
+    return setProjects(response.projects);
   };
 
   return (

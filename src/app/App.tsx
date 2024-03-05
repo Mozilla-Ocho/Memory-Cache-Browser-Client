@@ -11,7 +11,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <Sidebar />,
     children: [
-      { path: "dashboard", element: <Dashboard />, index: true },
+      { path: "/", element: <Dashboard />, index: true },
+      { path: "dashboard", element: <Dashboard /> },
       { path: "projects", element: <Projects /> },
       { path: "documents", element: <DocumentStore /> },
       // Add more routes as needed

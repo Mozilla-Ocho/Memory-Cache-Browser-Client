@@ -27,6 +27,12 @@ const Dashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (projects.length > 0 && !activeProject) {
+      setActiveProject(projects[0]);
+    }
+  }, [projects]);
+
+  useEffect(() => {
     if (activeProject) {
       filesApi
         .listFilesApiV1ListFilesProjectNameGet({
@@ -57,7 +63,6 @@ const Dashboard: React.FC = () => {
     <div>
       <h1>Dashboard</h1>
 
-      {/* Show the delete project button only if there is an active project */}
       <NewProjectDialog open={open} setOpen={setOpen} />
 
       {projects.length > 0 && (
