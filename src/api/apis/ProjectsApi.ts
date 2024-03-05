@@ -15,34 +15,67 @@
 
 import * as runtime from '../runtime';
 import type {
+  CreateProjectRequest,
   DeleteProjectRequest,
-  GetOrCreateProjectRequest,
   HTTPValidationError,
   ListProjectsResponse,
 } from '../models/index';
 import {
+    CreateProjectRequestFromJSON,
+    CreateProjectRequestToJSON,
     DeleteProjectRequestFromJSON,
     DeleteProjectRequestToJSON,
-    GetOrCreateProjectRequestFromJSON,
-    GetOrCreateProjectRequestToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
     ListProjectsResponseFromJSON,
     ListProjectsResponseToJSON,
 } from '../models/index';
 
-export interface DeleteProjectApiV1DeleteProjectDeleteRequest {
-    deleteProjectRequest: DeleteProjectRequest;
+export interface CreateProjectApiV1CreateProjectPostRequest {
+    createProjectRequest: CreateProjectRequest;
 }
 
-export interface GetOrCreateProjectApiV1GetOrCreateProjectPostRequest {
-    getOrCreateProjectRequest: GetOrCreateProjectRequest;
+export interface DeleteProjectApiV1DeleteProjectDeleteRequest {
+    deleteProjectRequest: DeleteProjectRequest;
 }
 
 /**
  * 
  */
 export class ProjectsApi extends runtime.BaseAPI {
+
+    /**
+     * Create Project
+     */
+    async createProjectApiV1CreateProjectPostRaw(requestParameters: CreateProjectApiV1CreateProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListProjectsResponse>> {
+        if (requestParameters.createProjectRequest === null || requestParameters.createProjectRequest === undefined) {
+            throw new runtime.RequiredError('createProjectRequest','Required parameter requestParameters.createProjectRequest was null or undefined when calling createProjectApiV1CreateProjectPost.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/v1/create_project`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateProjectRequestToJSON(requestParameters.createProjectRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ListProjectsResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Create Project
+     */
+    async createProjectApiV1CreateProjectPost(requestParameters: CreateProjectApiV1CreateProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListProjectsResponse> {
+        const response = await this.createProjectApiV1CreateProjectPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Delete Project
@@ -78,39 +111,6 @@ export class ProjectsApi extends runtime.BaseAPI {
      */
     async deleteProjectApiV1DeleteProjectDelete(requestParameters: DeleteProjectApiV1DeleteProjectDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.deleteProjectApiV1DeleteProjectDeleteRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Get Or Create Project
-     */
-    async getOrCreateProjectApiV1GetOrCreateProjectPostRaw(requestParameters: GetOrCreateProjectApiV1GetOrCreateProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListProjectsResponse>> {
-        if (requestParameters.getOrCreateProjectRequest === null || requestParameters.getOrCreateProjectRequest === undefined) {
-            throw new runtime.RequiredError('getOrCreateProjectRequest','Required parameter requestParameters.getOrCreateProjectRequest was null or undefined when calling getOrCreateProjectApiV1GetOrCreateProjectPost.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/api/v1/get_or_create_project`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: GetOrCreateProjectRequestToJSON(requestParameters.getOrCreateProjectRequest),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListProjectsResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Get Or Create Project
-     */
-    async getOrCreateProjectApiV1GetOrCreateProjectPost(requestParameters: GetOrCreateProjectApiV1GetOrCreateProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListProjectsResponse> {
-        const response = await this.getOrCreateProjectApiV1GetOrCreateProjectPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

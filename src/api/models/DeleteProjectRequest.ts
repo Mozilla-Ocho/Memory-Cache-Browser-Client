@@ -21,10 +21,10 @@ import { exists, mapValues } from '../runtime';
 export interface DeleteProjectRequest {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof DeleteProjectRequest
      */
-    projectName: string;
+    projectId: number;
 }
 
 /**
@@ -32,7 +32,7 @@ export interface DeleteProjectRequest {
  */
 export function instanceOfDeleteProjectRequest(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "projectName" in value;
+    isInstance = isInstance && "projectId" in value;
 
     return isInstance;
 }
@@ -47,7 +47,7 @@ export function DeleteProjectRequestFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'projectName': json['project_name'],
+        'projectId': json['project_id'],
     };
 }
 
@@ -60,7 +60,7 @@ export function DeleteProjectRequestToJSON(value?: DeleteProjectRequest | null):
     }
     return {
         
-        'project_name': value.projectName,
+        'project_id': value.projectId,
     };
 }
 

@@ -3,11 +3,15 @@ import { useProject } from "./ProjectContext";
 import ProjectFileList from "./ProjectFileList";
 import ProjectSelectionListBox from "./ProjectSelectionListBox";
 import GetStarted from "./GetStarted";
+import NewProjectDialog from "./NewProjectDialog";
 
 const Dashboard: React.FC = () => {
+  const [projectFileList, setProjectFileList] = useState<string[]>([]);
+  const [open, setOpen] = useState(false);
   const {
     projects,
     setProjects,
+    reloadProjects,
     activeProject,
     setActiveProject,
     filesApi,
@@ -18,22 +22,15 @@ const Dashboard: React.FC = () => {
     summariesApi,
   } = useProject();
 
-  const updateProjects = async () => {
-    const response = await projectsApi.listProjectsApiV1ListProjectsGet();
-    setProjects(response.projects);
-  };
-
   useEffect(() => {
-    updateProjects();
+    reloadProjects();
   }, []);
-
-  const [projectFileList, setProjectFileList] = useState<string[]>([]);
 
   useEffect(() => {
     if (activeProject) {
       filesApi
         .listFilesApiV1ListFilesProjectNameGet({
-          projectName: activeProject.projectName,
+          projectName: activeProject.name,
         })
         // Sort
         .then((response) => {
@@ -48,21 +45,34 @@ const Dashboard: React.FC = () => {
   }
 
   const deleteActiveProject = async () => {
-    const activeProjectName = activeProject.projectName;
+    const activeProjectId = activeProject.id;
     setActiveProject(undefined);
     await projectsApi.deleteProjectApiV1DeleteProjectDelete({
-      deleteProjectRequest: { projectName: activeProjectName },
+      deleteProjectRequest: { projectId: activeProjectId },
     });
-    updateProjects();
+    await reloadProjects();
   };
 
   return (
     <div>
       <h1>Dashboard</h1>
 
-      <ProjectSelectionListBox />
-
       {/* Show the delete project button only if there is an active project */}
+      <NewProjectDialog open={open} setOpen={setOpen} />
+
+      {projects.length > 0 && (
+        <>
+          <ProjectSelectionListBox />
+        </>
+      )}
+
+      <button
+        onClick={() => setOpen(true)}
+        type="button"
+        className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+      >
+        Create New Project
+      </button>
 
       {activeProject && (
         <>

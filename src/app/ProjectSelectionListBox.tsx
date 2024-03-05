@@ -31,8 +31,7 @@ export default function Example() {
           <div className="relative mt-2">
             <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
               <span className="block truncate">
-                {(activeProject && activeProject.projectName) ||
-                  "Select project..."}
+                {(activeProject && activeProject.name) || "Select project..."}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon
@@ -52,7 +51,7 @@ export default function Example() {
               <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {projects.map((project) => (
                   <Listbox.Option
-                    key={project.projectId}
+                    key={project.id}
                     className={({ active }) =>
                       classNames(
                         active ? "bg-indigo-600 text-white" : "text-gray-900",
@@ -69,7 +68,7 @@ export default function Example() {
                             "block truncate",
                           )}
                         >
-                          {project.projectName}
+                          {project.name}
                         </span>
 
                         {selected ? (

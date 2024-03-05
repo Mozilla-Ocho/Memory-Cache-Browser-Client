@@ -60,11 +60,17 @@ export const ProjectProvider: React.FC<ProjectProviderProps> = ({
   const ragApi = new RagApi(configuration);
   const summariesApi = new SummariesApi(configuration);
 
+  const reloadProjects = async () => {
+    const response = await projectsApi.listProjectsApiV1ListProjectsGet();
+    setProjects(response.projects);
+  };
+
   return (
     <ProjectContext.Provider
       value={{
         projects,
         setProjects,
+        reloadProjects,
         activeProject,
         setActiveProject,
         filesApi,

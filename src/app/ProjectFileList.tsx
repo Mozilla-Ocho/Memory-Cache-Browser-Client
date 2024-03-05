@@ -54,9 +54,6 @@ export default function Example({
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {projectFileList.map((projectFile) => {
-                  // Split the directory name from the projectFile, which is a path of the form:
-                  // ./projectName/uploads/directoryName/fileName
-                  // We want to display the directory name in the first column
                   const directory = projectFile
                     .split("/")[2]
                     .replaceAll("__", "/");

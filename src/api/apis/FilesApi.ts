@@ -32,6 +32,10 @@ export interface ApiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRequest {
     addDirectoryToProjectRequest: AddDirectoryToProjectRequest;
 }
 
+export interface ApiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRequest {
+    addDirectoryToProjectRequest: AddDirectoryToProjectRequest;
+}
+
 export interface DeleteFileApiV1DeleteFileDeleteRequest {
     deleteFileRequest: DeleteFileRequest;
 }
@@ -85,6 +89,43 @@ export class FilesApi extends runtime.BaseAPI {
      */
     async apiAddDirectoryToProjectApiV1AddDirectoryToProjectPost(requestParameters: ApiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.apiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Api Remove Directory From Project
+     */
+    async apiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRaw(requestParameters: ApiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.addDirectoryToProjectRequest === null || requestParameters.addDirectoryToProjectRequest === undefined) {
+            throw new runtime.RequiredError('addDirectoryToProjectRequest','Required parameter requestParameters.addDirectoryToProjectRequest was null or undefined when calling apiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPost.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/v1/remove_directory_from_project`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddDirectoryToProjectRequestToJSON(requestParameters.addDirectoryToProjectRequest),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Api Remove Directory From Project
+     */
+    async apiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPost(requestParameters: ApiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.apiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

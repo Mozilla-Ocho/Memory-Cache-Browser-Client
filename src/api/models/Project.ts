@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Id } from './Id';
+import {
+    IdFromJSON,
+    IdFromJSONTyped,
+    IdToJSON,
+} from './Id';
+
 /**
  * 
  * @export
@@ -21,16 +28,16 @@ import { exists, mapValues } from '../runtime';
 export interface Project {
     /**
      * 
-     * @type {string}
+     * @type {Id}
      * @memberof Project
      */
-    projectName: string;
+    id?: Id;
     /**
      * 
      * @type {string}
      * @memberof Project
      */
-    projectId: string;
+    name: string;
 }
 
 /**
@@ -38,8 +45,7 @@ export interface Project {
  */
 export function instanceOfProject(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "projectName" in value;
-    isInstance = isInstance && "projectId" in value;
+    isInstance = isInstance && "name" in value;
 
     return isInstance;
 }
@@ -54,8 +60,8 @@ export function ProjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): P
     }
     return {
         
-        'projectName': json['project_name'],
-        'projectId': json['project_id'],
+        'id': !exists(json, 'id') ? undefined : IdFromJSON(json['id']),
+        'name': json['name'],
     };
 }
 
@@ -68,8 +74,8 @@ export function ProjectToJSON(value?: Project | null): any {
     }
     return {
         
-        'project_name': value.projectName,
-        'project_id': value.projectId,
+        'id': IdToJSON(value.id),
+        'name': value.name,
     };
 }
 

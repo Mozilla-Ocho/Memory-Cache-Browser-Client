@@ -8,14 +8,16 @@ apis/SummariesApi.ts
 apis/index.ts
 index.ts
 models/AddDirectoryToProjectRequest.ts
+models/CreateProjectRequest.ts
 models/DeleteFileRequest.ts
 models/DeleteProjectRequest.ts
 models/DownloadLlamafileByNameRequest.ts
-models/GetOrCreateProjectRequest.ts
 models/HTTPValidationError.ts
+models/Id.ts
 models/IngestProjectFilesRequest.ts
 models/ListProjectsResponse.ts
 models/Project.ts
+models/ProjectName.ts
 models/RagAskRequest.ts
 models/SummarizeFileRequest.ts
 models/ValidationError.ts
