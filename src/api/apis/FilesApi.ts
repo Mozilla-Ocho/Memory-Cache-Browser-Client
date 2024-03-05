@@ -36,12 +36,16 @@ export interface ApiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPos
     addDirectoryToProjectRequest: AddDirectoryToProjectRequest;
 }
 
+export interface ApiSyncProjectFilesApiV1SyncProjectFilesPostRequest {
+    projectId: number;
+}
+
 export interface DeleteFileApiV1DeleteFileDeleteRequest {
     deleteFileRequest: DeleteFileRequest;
 }
 
-export interface ListFilesApiV1ListFilesProjectNameGetRequest {
-    projectName: string;
+export interface ListProjectFilesApiV1ListProjectFilesProjectIdGetRequest {
+    projectId: number;
 }
 
 export interface UploadFileApiV1UploadFilePostRequest {
@@ -130,6 +134,44 @@ export class FilesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Api Sync Project Files
+     */
+    async apiSyncProjectFilesApiV1SyncProjectFilesPostRaw(requestParameters: ApiSyncProjectFilesApiV1SyncProjectFilesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling apiSyncProjectFilesApiV1SyncProjectFilesPost.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.projectId !== undefined) {
+            queryParameters['project_id'] = requestParameters.projectId;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/sync_project_files`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Api Sync Project Files
+     */
+    async apiSyncProjectFilesApiV1SyncProjectFilesPost(requestParameters: ApiSyncProjectFilesApiV1SyncProjectFilesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.apiSyncProjectFilesApiV1SyncProjectFilesPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Delete File
      */
     async deleteFileApiV1DeleteFileDeleteRaw(requestParameters: DeleteFileApiV1DeleteFileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
@@ -167,11 +209,11 @@ export class FilesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Files
+     * List Project Files
      */
-    async listFilesApiV1ListFilesProjectNameGetRaw(requestParameters: ListFilesApiV1ListFilesProjectNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
-        if (requestParameters.projectName === null || requestParameters.projectName === undefined) {
-            throw new runtime.RequiredError('projectName','Required parameter requestParameters.projectName was null or undefined when calling listFilesApiV1ListFilesProjectNameGet.');
+    async listProjectFilesApiV1ListProjectFilesProjectIdGetRaw(requestParameters: ListProjectFilesApiV1ListProjectFilesProjectIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling listProjectFilesApiV1ListProjectFilesProjectIdGet.');
         }
 
         const queryParameters: any = {};
@@ -179,7 +221,7 @@ export class FilesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/list_files/{project_name}`.replace(`{${"project_name"}}`, encodeURIComponent(String(requestParameters.projectName))),
+            path: `/api/v1/list_project_files/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -189,10 +231,10 @@ export class FilesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Files
+     * List Project Files
      */
-    async listFilesApiV1ListFilesProjectNameGet(requestParameters: ListFilesApiV1ListFilesProjectNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
-        const response = await this.listFilesApiV1ListFilesProjectNameGetRaw(requestParameters, initOverrides);
+    async listProjectFilesApiV1ListProjectFilesProjectIdGet(requestParameters: ListProjectFilesApiV1ListProjectFilesProjectIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
+        const response = await this.listProjectFilesApiV1ListProjectFilesProjectIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

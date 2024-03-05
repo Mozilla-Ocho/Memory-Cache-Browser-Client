@@ -28,6 +28,10 @@ import {
     HTTPValidationErrorToJSON,
 } from '../models/index';
 
+export interface ApiDeleteLlamafileApiV1DeleteLlamafileDeleteRequest {
+    downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
+}
+
 export interface ApiStartLlamafileApiV1StartLlamafilePostRequest {
     downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
 }
@@ -40,10 +44,6 @@ export interface CheckLlamafileStatusApiV1CheckLlamafileStatusPostRequest {
     checkLlamafileStatusRequest: CheckLlamafileStatusRequest;
 }
 
-export interface DeleteLlamafileApiV1DeleteLlamafileDeleteRequest {
-    downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
-}
-
 export interface DownloadLlamafileByNameApiV1DownloadLlamafileByNamePostRequest {
     downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
 }
@@ -52,6 +52,43 @@ export interface DownloadLlamafileByNameApiV1DownloadLlamafileByNamePostRequest 
  * 
  */
 export class LlamafileApi extends runtime.BaseAPI {
+
+    /**
+     * Api Delete Llamafile
+     */
+    async apiDeleteLlamafileApiV1DeleteLlamafileDeleteRaw(requestParameters: ApiDeleteLlamafileApiV1DeleteLlamafileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.downloadLlamafileByNameRequest === null || requestParameters.downloadLlamafileByNameRequest === undefined) {
+            throw new runtime.RequiredError('downloadLlamafileByNameRequest','Required parameter requestParameters.downloadLlamafileByNameRequest was null or undefined when calling apiDeleteLlamafileApiV1DeleteLlamafileDelete.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/v1/delete_llamafile`,
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DownloadLlamafileByNameRequestToJSON(requestParameters.downloadLlamafileByNameRequest),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Api Delete Llamafile
+     */
+    async apiDeleteLlamafileApiV1DeleteLlamafileDelete(requestParameters: ApiDeleteLlamafileApiV1DeleteLlamafileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.apiDeleteLlamafileApiV1DeleteLlamafileDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Api Start Llamafile
@@ -161,43 +198,6 @@ export class LlamafileApi extends runtime.BaseAPI {
      */
     async checkLlamafileStatusApiV1CheckLlamafileStatusPost(requestParameters: CheckLlamafileStatusApiV1CheckLlamafileStatusPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.checkLlamafileStatusApiV1CheckLlamafileStatusPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Delete Llamafile
-     */
-    async deleteLlamafileApiV1DeleteLlamafileDeleteRaw(requestParameters: DeleteLlamafileApiV1DeleteLlamafileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.downloadLlamafileByNameRequest === null || requestParameters.downloadLlamafileByNameRequest === undefined) {
-            throw new runtime.RequiredError('downloadLlamafileByNameRequest','Required parameter requestParameters.downloadLlamafileByNameRequest was null or undefined when calling deleteLlamafileApiV1DeleteLlamafileDelete.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/api/v1/delete_llamafile`,
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-            body: DownloadLlamafileByNameRequestToJSON(requestParameters.downloadLlamafileByNameRequest),
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Delete Llamafile
-     */
-    async deleteLlamafileApiV1DeleteLlamafileDelete(requestParameters: DeleteLlamafileApiV1DeleteLlamafileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.deleteLlamafileApiV1DeleteLlamafileDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

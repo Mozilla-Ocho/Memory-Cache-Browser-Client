@@ -42,20 +42,6 @@ const Project: React.FC = (props) => {
     }
   }, [projects]);
 
-  useEffect(() => {
-    if (activeProject) {
-      filesApi
-        .listFilesApiV1ListFilesProjectNameGet({
-          projectName: activeProject.name,
-        })
-        // Sort
-        .then((response) => {
-          return response.sort();
-        })
-        .then(setProjectFileList);
-    }
-  }, [activeProject]);
-
   if (projects.length === 0) {
     return <GetStarted />;
   }
