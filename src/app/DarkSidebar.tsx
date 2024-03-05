@@ -9,6 +9,9 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  CogIcon,
+  CpuChipIcon,
+  QueueListIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
@@ -16,13 +19,30 @@ import ProjectSelectionListBox from "./ProjectSelectionListBox";
 import { useProject } from "./ProjectContext";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
-  { name: "Projects", href: "/projects", icon: FolderIcon, current: false },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
   {
-    name: "Documents",
+    name: "Models",
+    href: "documents",
+    icon: CpuChipIcon,
+    current: false,
+  },
+  {
+    name: "Prompts",
     href: "documents",
     icon: DocumentDuplicateIcon,
     current: false,
+  },
+  {
+    name: "Jobs",
+    href: "/projects",
+    icon: QueueListIcon,
+    current: false,
+  },
+  {
+    name: "Project Settings",
+    href: "/dashboard",
+    icon: CogIcon,
+    current: true,
   },
 ];
 const teams = [
@@ -248,18 +268,19 @@ export default function DarkSidebar() {
                   </ul>
                 </li>
                 <li className="-mx-6 mt-auto">
-                  <a
-                    href="#"
-                    className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
+                  <Link
+                    href={`/settings`}
+                    to={`/settings`}
+                    className={classNames(
+                      "text-gray-400 hover:text-white hover:bg-gray-800",
+                      "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
+                    )}
                   >
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-800"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                    <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">Tom Cook</span>
-                  </a>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
+                      {"Settings"}
+                    </span>
+                    <span className="truncate">{"Settings"}</span>
+                  </Link>
                 </li>
               </ul>
             </nav>
