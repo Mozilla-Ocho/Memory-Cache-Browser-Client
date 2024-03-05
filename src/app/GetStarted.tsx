@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import NewProjectDialog from "./NewProjectDialog";
+import { useProject } from "./ProjectContext";
 
 export default function GetStarted() {
-  const [open, setOpen] = useState(false);
+  const { setOpenNewProjectDialog } = useProject();
 
   return (
     <>
@@ -33,14 +34,14 @@ export default function GetStarted() {
           <button
             type="button"
             className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => setOpen(true)}
+            onClick={() => setOpenNewProjectDialog(true)}
           >
             <PlusIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
             New Project
           </button>
         </div>
       </div>
-      <NewProjectDialog open={open} setOpen={setOpen} />
+      <NewProjectDialog />
     </>
   );
 }

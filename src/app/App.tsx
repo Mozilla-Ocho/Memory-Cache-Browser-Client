@@ -15,7 +15,10 @@ const router = createBrowserRouter([
       { path: "dashboard", element: <Dashboard /> },
       { path: "projects", element: <Projects /> },
       { path: "documents", element: <DocumentStore /> },
-      // Add more routes as needed
+      { path: "projects/:projectId", element: <Dashboard /> },
+      // The way the :projectId works is that it's a URL parameter that can be accessed in the component
+      // using the useParams hook from react-router-dom. For example:
+      // const { projectId } = useParams();
     ],
   },
 ]);

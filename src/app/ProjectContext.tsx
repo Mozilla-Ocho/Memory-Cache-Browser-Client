@@ -25,6 +25,8 @@ interface ProjectContextType {
   projectsApi: ProjectsApi;
   ragApi: RagApi;
   summariesApi: SummariesApi;
+  openNewProjectDialog: boolean;
+  setOpenNewProjectDialog: (open: boolean) => void;
 }
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
@@ -48,6 +50,7 @@ export const ProjectProvider: React.FC<ProjectProviderProps> = ({
 }) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [openNewProjectDialog, setOpenNewProjectDialog] = useState(false);
 
   const configuration = new Configuration({
     basePath: "http://localhost:4444",
@@ -79,6 +82,8 @@ export const ProjectProvider: React.FC<ProjectProviderProps> = ({
         projectsApi,
         ragApi,
         summariesApi,
+        openNewProjectDialog,
+        setOpenNewProjectDialog,
       }}
     >
       {children}

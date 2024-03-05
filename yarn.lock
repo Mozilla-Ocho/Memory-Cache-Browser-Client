@@ -1454,6 +1454,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tailwindcss/forms@npm:^0.5.7":
+  version: 0.5.7
+  resolution: "@tailwindcss/forms@npm:0.5.7"
+  dependencies:
+    mini-svg-data-uri: "npm:^1.2.3"
+  peerDependencies:
+    tailwindcss: ">=3.0.0 || >= 3.0.0-alpha.1"
+  checksum: 10c0/cd29e0c978402ae87a923ae802dcff43f7b050595666cb067321cac2e37a52f61b9d73385cb0a10455548581ddd0d3886815bd6c64a1da06247c0057fa9f4601
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-virtual@npm:3.0.0-beta.60":
   version: 3.0.0-beta.60
   resolution: "@tanstack/react-virtual@npm:3.0.0-beta.60"
@@ -1805,6 +1816,7 @@ __metadata:
     "@headlessui/react": "npm:^2.0.0-alpha.4"
     "@heroicons/react": "npm:^2.1.1"
     "@parcel/core": "npm:^2.12.0"
+    "@tailwindcss/forms": "npm:^0.5.7"
     "@types/react": "npm:^18.2.61"
     "@types/react-dom": "npm:^18.2.19"
     autoprefixer: "npm:^10.4.18"
@@ -2819,6 +2831,15 @@ __metadata:
     braces: "npm:^3.0.2"
     picomatch: "npm:^2.3.1"
   checksum: 10c0/3d6505b20f9fa804af5d8c596cb1c5e475b9b0cd05f652c5b56141cf941bd72adaeb7a436fda344235cef93a7f29b7472efc779fcdb83b478eab0867b95cdeff
+  languageName: node
+  linkType: hard
+
+"mini-svg-data-uri@npm:^1.2.3":
+  version: 1.4.4
+  resolution: "mini-svg-data-uri@npm:1.4.4"
+  bin:
+    mini-svg-data-uri: cli.js
+  checksum: 10c0/24545fa30b5a45449241bf19c25b8bc37594b63ec06401b3d563bd1c2e8a6abb7c18741f8b354e0064baa63c291be214154bf3a66f201ae71dfab3cc1a5e3191
   languageName: node
   linkType: hard
 

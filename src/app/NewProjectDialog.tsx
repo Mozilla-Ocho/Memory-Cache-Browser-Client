@@ -4,11 +4,17 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 
 import { useProject } from "./ProjectContext";
 
-export default function NewProjectDialog({ open, setOpen }) {
+export default function NewProjectDialog() {
   const [projectName, setProjectName] = useState("");
   const [showLoading, setShowLoading] = useState(false);
 
-  const { projectsApi, reloadProjects, setActiveProject } = useProject();
+  const {
+    projectsApi,
+    reloadProjects,
+    setActiveProject,
+    openNewProjectDialog,
+    setOpenNewProjectDialog,
+  } = useProject();
 
   const handleSubmit = async () => {
     setShowLoading(true);
@@ -18,11 +24,15 @@ export default function NewProjectDialog({ open, setOpen }) {
     await reloadProjects();
     setActiveProject(response.projects[0]);
     setShowLoading(false);
-    setOpen(false);
+    setOpenNewProjectDialog(false);
   };
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+    <Transition.Root show={openNewProjectDialog} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={setOpenNewProjectDialog}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

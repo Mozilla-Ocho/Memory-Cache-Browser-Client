@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useProject } from "./ProjectContext";
 import ProjectFileList from "./ProjectFileList";
 import ProjectSelectionListBox from "./ProjectSelectionListBox";
 import GetStarted from "./GetStarted";
 import NewProjectDialog from "./NewProjectDialog";
+import ProjectSettings from "./ProjectSettings";
 
-const Dashboard: React.FC = () => {
+const Dashboard: React.FC = (props) => {
   const [projectFileList, setProjectFileList] = useState<string[]>([]);
-  const [open, setOpen] = useState(false);
   const {
     projects,
     setProjects,
@@ -21,6 +22,19 @@ const Dashboard: React.FC = () => {
     ragApi,
     summariesApi,
   } = useProject();
+  const { projectId } = useParams();
+  console.log("Dashboard got projectId: ", projectId);
+
+      if (
+        projectId &&
+        activeProject &&
+        parseInt(projectId) !== activeProject.id
+      ) {
+        const project = projects.find((project) => project.id === parseInt(projectId)));
+        if (project) {
+          setActiveProject(project);
+        }
+      }
 
   useEffect(() => {
     reloadProjects();
@@ -61,36 +75,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      <h1>Dashboard</h1>
+      <NewProjectDialog />
 
-      <NewProjectDialog open={open} setOpen={setOpen} />
-
-      {projects.length > 0 && (
-        <>
-          <ProjectSelectionListBox />
-        </>
-      )}
-
-      <button
-        onClick={() => setOpen(true)}
-        type="button"
-        className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-      >
-        Create New Project
-      </button>
-
-      {activeProject && (
-        <>
-          <button
-            onClick={deleteActiveProject}
-            type="button"
-            className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-          >
-            Delete Project
-          </button>
-          <ProjectFileList projectFileList={projectFileList} />
-        </>
-      )}
+      {activeProject && <ProjectSettings />}
     </div>
   );
 };

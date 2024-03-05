@@ -13,6 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import ProjectSelectionListBox from "./ProjectSelectionListBox";
+import { useProject } from "./ProjectContext";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
@@ -36,6 +37,12 @@ function classNames(...classes) {
 
 export default function DarkSidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const {
+    projects,
+    activeProject,
+    openNewProjectDialog,
+    setOpenNewProjectDialog,
+  } = useProject();
 
   return (
     <>
@@ -208,27 +215,36 @@ export default function DarkSidebar() {
                 </li>
                 <li>
                   <div className="text-xs font-semibold leading-6 text-gray-400">
-                    Your teams
+                    Your Projects
                   </div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
-                    {teams.map((team) => (
-                      <li key={team.name}>
-                        <a
-                          href={team.href}
+                    {projects.map((project) => (
+                      <li key={project.id}>
+                        <Link
+                          href={`/projects/${project.id}`}
+                          to={`/projects/${project.id}`}
                           className={classNames(
-                            team.current
+                            project.id === activeProject?.id
                               ? "bg-gray-800 text-white"
                               : "text-gray-400 hover:text-white hover:bg-gray-800",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
                           )}
                         >
                           <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                            {team.initial}
+                            {project.name[0]}
                           </span>
-                          <span className="truncate">{team.name}</span>
-                        </a>
+                          <span className="truncate">{project.name}</span>
+                        </Link>
                       </li>
                     ))}
+
+                    <button
+                      onClick={() => setOpenNewProjectDialog(true)}
+                      type="button"
+                      className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    >
+                      Create New Project
+                    </button>
                   </ul>
                 </li>
                 <li className="-mx-6 mt-auto">
