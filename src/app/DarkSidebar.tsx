@@ -15,35 +15,16 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ProjectSelectionListBox from "./ProjectSelectionListBox";
 import { useProject } from "./ProjectContext";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
-  {
-    name: "Models",
-    href: "models",
-    icon: CpuChipIcon,
-    current: false,
-  },
-  {
-    name: "Prompts",
-    href: "prompts",
-    icon: DocumentDuplicateIcon,
-    current: false,
-  },
-  {
-    name: "Jobs",
-    href: "jobs",
-    icon: QueueListIcon,
-    current: false,
-  },
-  {
-    name: "Project Settings",
-    href: "projects/:projectId",
-    icon: CogIcon,
-    current: true,
-  },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
+  { name: "Models", href: "/models", icon: CpuChipIcon },
+  { name: "Prompts", href: "/prompts", icon: DocumentDuplicateIcon },
+  { name: "Jobs", href: "/jobs", icon: QueueListIcon },
+  { name: "Project Settings", href: "/projects/:projectId", icon: CogIcon },
 ];
 const teams = [
   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
@@ -63,6 +44,16 @@ export default function DarkSidebar() {
     openNewProjectDialog,
     setOpenNewProjectDialog,
   } = useProject();
+  const location = useLocation();
+  // Function to determine if the nav item is the current page
+  const isCurrent = (href) => {
+    // Exact match for root
+    if (href === "/" && location.pathname === "/") {
+      return true;
+    }
+    // Prefix match for other paths, ignoring dynamic segments
+    return location.pathname.startsWith(href.replace(/\/:[^\/]+/, ""));
+  };
 
   return (
     <>
@@ -146,7 +137,7 @@ export default function DarkSidebar() {
                                   href={item.href}
                                   to={item.href}
                                   className={classNames(
-                                    item.current
+                                    isCurrent(item.href)
                                       ? "bg-gray-800 text-white"
                                       : "text-gray-400 hover:text-white hover:bg-gray-800",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
@@ -217,7 +208,7 @@ export default function DarkSidebar() {
                           href={item.href}
                           to={item.href}
                           className={classNames(
-                            item.current
+                            isCurrent(item.href)
                               ? "bg-gray-800 text-white"
                               : "text-gray-400 hover:text-white hover:bg-gray-800",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
