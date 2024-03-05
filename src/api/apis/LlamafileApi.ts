@@ -15,10 +15,13 @@
 
 import * as runtime from '../runtime';
 import type {
+  CheckLlamafileStatusRequest,
   DownloadLlamafileByNameRequest,
   HTTPValidationError,
 } from '../models/index';
 import {
+    CheckLlamafileStatusRequestFromJSON,
+    CheckLlamafileStatusRequestToJSON,
     DownloadLlamafileByNameRequestFromJSON,
     DownloadLlamafileByNameRequestToJSON,
     HTTPValidationErrorFromJSON,
@@ -33,7 +36,11 @@ export interface ApiStopLlamafileApiV1StopLlamafilePostRequest {
     downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
 }
 
-export interface CheckLlamafileDownloadProgressApiV1CheckLlamafileDownloadProgressPostRequest {
+export interface CheckLlamafileStatusApiV1CheckLlamafileStatusPostRequest {
+    checkLlamafileStatusRequest: CheckLlamafileStatusRequest;
+}
+
+export interface DeleteLlamafileApiV1DeleteLlamafileDeleteRequest {
     downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
 }
 
@@ -121,11 +128,11 @@ export class LlamafileApi extends runtime.BaseAPI {
     }
 
     /**
-     * Check Llamafile Download Progress
+     * Check Llamafile Status
      */
-    async checkLlamafileDownloadProgressApiV1CheckLlamafileDownloadProgressPostRaw(requestParameters: CheckLlamafileDownloadProgressApiV1CheckLlamafileDownloadProgressPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.downloadLlamafileByNameRequest === null || requestParameters.downloadLlamafileByNameRequest === undefined) {
-            throw new runtime.RequiredError('downloadLlamafileByNameRequest','Required parameter requestParameters.downloadLlamafileByNameRequest was null or undefined when calling checkLlamafileDownloadProgressApiV1CheckLlamafileDownloadProgressPost.');
+    async checkLlamafileStatusApiV1CheckLlamafileStatusPostRaw(requestParameters: CheckLlamafileStatusApiV1CheckLlamafileStatusPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.checkLlamafileStatusRequest === null || requestParameters.checkLlamafileStatusRequest === undefined) {
+            throw new runtime.RequiredError('checkLlamafileStatusRequest','Required parameter requestParameters.checkLlamafileStatusRequest was null or undefined when calling checkLlamafileStatusApiV1CheckLlamafileStatusPost.');
         }
 
         const queryParameters: any = {};
@@ -135,8 +142,45 @@ export class LlamafileApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/v1/check_llamafile_download_progress`,
+            path: `/api/v1/check_llamafile_status`,
             method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CheckLlamafileStatusRequestToJSON(requestParameters.checkLlamafileStatusRequest),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Check Llamafile Status
+     */
+    async checkLlamafileStatusApiV1CheckLlamafileStatusPost(requestParameters: CheckLlamafileStatusApiV1CheckLlamafileStatusPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.checkLlamafileStatusApiV1CheckLlamafileStatusPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Delete Llamafile
+     */
+    async deleteLlamafileApiV1DeleteLlamafileDeleteRaw(requestParameters: DeleteLlamafileApiV1DeleteLlamafileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.downloadLlamafileByNameRequest === null || requestParameters.downloadLlamafileByNameRequest === undefined) {
+            throw new runtime.RequiredError('downloadLlamafileByNameRequest','Required parameter requestParameters.downloadLlamafileByNameRequest was null or undefined when calling deleteLlamafileApiV1DeleteLlamafileDelete.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/v1/delete_llamafile`,
+            method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
             body: DownloadLlamafileByNameRequestToJSON(requestParameters.downloadLlamafileByNameRequest),
@@ -150,10 +194,10 @@ export class LlamafileApi extends runtime.BaseAPI {
     }
 
     /**
-     * Check Llamafile Download Progress
+     * Delete Llamafile
      */
-    async checkLlamafileDownloadProgressApiV1CheckLlamafileDownloadProgressPost(requestParameters: CheckLlamafileDownloadProgressApiV1CheckLlamafileDownloadProgressPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.checkLlamafileDownloadProgressApiV1CheckLlamafileDownloadProgressPostRaw(requestParameters, initOverrides);
+    async deleteLlamafileApiV1DeleteLlamafileDelete(requestParameters: DeleteLlamafileApiV1DeleteLlamafileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.deleteLlamafileApiV1DeleteLlamafileDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -191,6 +235,36 @@ export class LlamafileApi extends runtime.BaseAPI {
      */
     async downloadLlamafileByNameApiV1DownloadLlamafileByNamePost(requestParameters: DownloadLlamafileByNameApiV1DownloadLlamafileByNamePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.downloadLlamafileByNameApiV1DownloadLlamafileByNamePostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * List Llamafiles
+     */
+    async listLlamafilesApiV1ListLlamafilesGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/list_llamafiles`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * List Llamafiles
+     */
+    async listLlamafilesApiV1ListLlamafilesGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.listLlamafilesApiV1ListLlamafilesGetRaw(initOverrides);
         return await response.value();
     }
 

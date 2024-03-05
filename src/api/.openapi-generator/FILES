@@ -8,6 +8,7 @@ apis/SummariesApi.ts
 apis/index.ts
 index.ts
 models/AddDirectoryToProjectRequest.ts
+models/CheckLlamafileStatusRequest.ts
 models/CreateProjectRequest.ts
 models/DeleteFileRequest.ts
 models/DeleteProjectRequest.ts
