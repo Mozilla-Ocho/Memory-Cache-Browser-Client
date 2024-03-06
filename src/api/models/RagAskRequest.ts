@@ -24,7 +24,7 @@ export interface RagAskRequest {
      * @type {string}
      * @memberof RagAskRequest
      */
-    projectName: string;
+    projectId: string;
     /**
      * 
      * @type {string}
@@ -38,7 +38,7 @@ export interface RagAskRequest {
  */
 export function instanceOfRagAskRequest(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "projectName" in value;
+    isInstance = isInstance && "projectId" in value;
     isInstance = isInstance && "prompt" in value;
 
     return isInstance;
@@ -54,7 +54,7 @@ export function RagAskRequestFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'projectName': json['project_name'],
+        'projectId': json['project_id'],
         'prompt': json['prompt'],
     };
 }
@@ -68,7 +68,7 @@ export function RagAskRequestToJSON(value?: RagAskRequest | null): any {
     }
     return {
         
-        'project_name': value.projectName,
+        'project_id': value.projectId,
         'prompt': value.prompt,
     };
 }

@@ -147,10 +147,16 @@ export default function Example() {
 
   async function deleteProject() {
     await projectsApi.deleteProjectApiV1DeleteProjectDelete({
-      deleteProjectRequest: {
-        projectId: activeProject.id,
-      },
+      projectId: activeProject.id,
     });
+  }
+
+  async function deleteProjectDirectory(directoryId) {
+    await projectsApi.apiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDelete(
+      {
+        directoryId: directoryId,
+      },
+    );
   }
 
   return (
@@ -218,11 +224,7 @@ export default function Example() {
                     path={dir.path}
                     count={10}
                     onDelete={async (directoryId) => {
-                      console.log("Deleting project", directoryId);
-                      await projectsApi.deleteProjectDirectoryApiV1DeleteProjectDirectoryDelete(
-                        { directoryId: directoryId },
-                      );
-                      doit();
+                      await deleteProjectDirectory(directoryId);
                     }}
                   />
                 ))}

@@ -24,7 +24,7 @@ export interface SummarizeFileRequest {
      * @type {string}
      * @memberof SummarizeFileRequest
      */
-    projectName: string;
+    projectId: string;
     /**
      * 
      * @type {string}
@@ -38,7 +38,7 @@ export interface SummarizeFileRequest {
  */
 export function instanceOfSummarizeFileRequest(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "projectName" in value;
+    isInstance = isInstance && "projectId" in value;
     isInstance = isInstance && "filePath" in value;
 
     return isInstance;
@@ -54,7 +54,7 @@ export function SummarizeFileRequestFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'projectName': json['project_name'],
+        'projectId': json['project_id'],
         'filePath': json['file_path'],
     };
 }
@@ -68,7 +68,7 @@ export function SummarizeFileRequestToJSON(value?: SummarizeFileRequest | null):
     }
     return {
         
-        'project_name': value.projectName,
+        'project_id': value.projectId,
         'file_path': value.filePath,
     };
 }

@@ -15,37 +15,31 @@
 
 import * as runtime from '../runtime';
 import type {
-  CheckLlamafileStatusRequest,
-  DownloadLlamafileByNameRequest,
   HTTPValidationError,
 } from '../models/index';
 import {
-    CheckLlamafileStatusRequestFromJSON,
-    CheckLlamafileStatusRequestToJSON,
-    DownloadLlamafileByNameRequestFromJSON,
-    DownloadLlamafileByNameRequestToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
 } from '../models/index';
 
 export interface ApiDeleteLlamafileApiV1DeleteLlamafileDeleteRequest {
-    downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
+    llamafileFilename: string;
 }
 
 export interface ApiStartLlamafileApiV1StartLlamafilePostRequest {
-    downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
+    llamafileFilename: string;
 }
 
 export interface ApiStopLlamafileApiV1StopLlamafilePostRequest {
-    downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
+    llamafileFilename: string;
 }
 
 export interface CheckLlamafileStatusApiV1CheckLlamafileStatusPostRequest {
-    checkLlamafileStatusRequest: CheckLlamafileStatusRequest;
+    llamafileFilename: string;
 }
 
 export interface DownloadLlamafileByNameApiV1DownloadLlamafileByNamePostRequest {
-    downloadLlamafileByNameRequest: DownloadLlamafileByNameRequest;
+    llamafileFilename: string;
 }
 
 /**
@@ -57,22 +51,23 @@ export class LlamafileApi extends runtime.BaseAPI {
      * Api Delete Llamafile
      */
     async apiDeleteLlamafileApiV1DeleteLlamafileDeleteRaw(requestParameters: ApiDeleteLlamafileApiV1DeleteLlamafileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.downloadLlamafileByNameRequest === null || requestParameters.downloadLlamafileByNameRequest === undefined) {
-            throw new runtime.RequiredError('downloadLlamafileByNameRequest','Required parameter requestParameters.downloadLlamafileByNameRequest was null or undefined when calling apiDeleteLlamafileApiV1DeleteLlamafileDelete.');
+        if (requestParameters.llamafileFilename === null || requestParameters.llamafileFilename === undefined) {
+            throw new runtime.RequiredError('llamafileFilename','Required parameter requestParameters.llamafileFilename was null or undefined when calling apiDeleteLlamafileApiV1DeleteLlamafileDelete.');
         }
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters.llamafileFilename !== undefined) {
+            queryParameters['llamafile_filename'] = requestParameters.llamafileFilename;
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/v1/delete_llamafile`,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: DownloadLlamafileByNameRequestToJSON(requestParameters.downloadLlamafileByNameRequest),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -94,22 +89,23 @@ export class LlamafileApi extends runtime.BaseAPI {
      * Api Start Llamafile
      */
     async apiStartLlamafileApiV1StartLlamafilePostRaw(requestParameters: ApiStartLlamafileApiV1StartLlamafilePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.downloadLlamafileByNameRequest === null || requestParameters.downloadLlamafileByNameRequest === undefined) {
-            throw new runtime.RequiredError('downloadLlamafileByNameRequest','Required parameter requestParameters.downloadLlamafileByNameRequest was null or undefined when calling apiStartLlamafileApiV1StartLlamafilePost.');
+        if (requestParameters.llamafileFilename === null || requestParameters.llamafileFilename === undefined) {
+            throw new runtime.RequiredError('llamafileFilename','Required parameter requestParameters.llamafileFilename was null or undefined when calling apiStartLlamafileApiV1StartLlamafilePost.');
         }
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters.llamafileFilename !== undefined) {
+            queryParameters['llamafile_filename'] = requestParameters.llamafileFilename;
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/v1/start_llamafile`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: DownloadLlamafileByNameRequestToJSON(requestParameters.downloadLlamafileByNameRequest),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -131,22 +127,23 @@ export class LlamafileApi extends runtime.BaseAPI {
      * Api Stop Llamafile
      */
     async apiStopLlamafileApiV1StopLlamafilePostRaw(requestParameters: ApiStopLlamafileApiV1StopLlamafilePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.downloadLlamafileByNameRequest === null || requestParameters.downloadLlamafileByNameRequest === undefined) {
-            throw new runtime.RequiredError('downloadLlamafileByNameRequest','Required parameter requestParameters.downloadLlamafileByNameRequest was null or undefined when calling apiStopLlamafileApiV1StopLlamafilePost.');
+        if (requestParameters.llamafileFilename === null || requestParameters.llamafileFilename === undefined) {
+            throw new runtime.RequiredError('llamafileFilename','Required parameter requestParameters.llamafileFilename was null or undefined when calling apiStopLlamafileApiV1StopLlamafilePost.');
         }
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters.llamafileFilename !== undefined) {
+            queryParameters['llamafile_filename'] = requestParameters.llamafileFilename;
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/v1/stop_llamafile`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: DownloadLlamafileByNameRequestToJSON(requestParameters.downloadLlamafileByNameRequest),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -168,22 +165,23 @@ export class LlamafileApi extends runtime.BaseAPI {
      * Check Llamafile Status
      */
     async checkLlamafileStatusApiV1CheckLlamafileStatusPostRaw(requestParameters: CheckLlamafileStatusApiV1CheckLlamafileStatusPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.checkLlamafileStatusRequest === null || requestParameters.checkLlamafileStatusRequest === undefined) {
-            throw new runtime.RequiredError('checkLlamafileStatusRequest','Required parameter requestParameters.checkLlamafileStatusRequest was null or undefined when calling checkLlamafileStatusApiV1CheckLlamafileStatusPost.');
+        if (requestParameters.llamafileFilename === null || requestParameters.llamafileFilename === undefined) {
+            throw new runtime.RequiredError('llamafileFilename','Required parameter requestParameters.llamafileFilename was null or undefined when calling checkLlamafileStatusApiV1CheckLlamafileStatusPost.');
         }
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters.llamafileFilename !== undefined) {
+            queryParameters['llamafile_filename'] = requestParameters.llamafileFilename;
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/v1/check_llamafile_status`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CheckLlamafileStatusRequestToJSON(requestParameters.checkLlamafileStatusRequest),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -205,22 +203,23 @@ export class LlamafileApi extends runtime.BaseAPI {
      * Download Llamafile By Name
      */
     async downloadLlamafileByNameApiV1DownloadLlamafileByNamePostRaw(requestParameters: DownloadLlamafileByNameApiV1DownloadLlamafileByNamePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.downloadLlamafileByNameRequest === null || requestParameters.downloadLlamafileByNameRequest === undefined) {
-            throw new runtime.RequiredError('downloadLlamafileByNameRequest','Required parameter requestParameters.downloadLlamafileByNameRequest was null or undefined when calling downloadLlamafileByNameApiV1DownloadLlamafileByNamePost.');
+        if (requestParameters.llamafileFilename === null || requestParameters.llamafileFilename === undefined) {
+            throw new runtime.RequiredError('llamafileFilename','Required parameter requestParameters.llamafileFilename was null or undefined when calling downloadLlamafileByNameApiV1DownloadLlamafileByNamePost.');
         }
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters.llamafileFilename !== undefined) {
+            queryParameters['llamafile_filename'] = requestParameters.llamafileFilename;
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/v1/download_llamafile_by_name`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: DownloadLlamafileByNameRequestToJSON(requestParameters.downloadLlamafileByNameRequest),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {

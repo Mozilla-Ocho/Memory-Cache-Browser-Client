@@ -15,33 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-  AddDirectoryToProjectRequest,
-  DeleteFileRequest,
   HTTPValidationError,
 } from '../models/index';
 import {
-    AddDirectoryToProjectRequestFromJSON,
-    AddDirectoryToProjectRequestToJSON,
-    DeleteFileRequestFromJSON,
-    DeleteFileRequestToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
 } from '../models/index';
 
-export interface ApiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRequest {
-    addDirectoryToProjectRequest: AddDirectoryToProjectRequest;
-}
-
-export interface ApiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRequest {
-    addDirectoryToProjectRequest: AddDirectoryToProjectRequest;
-}
-
 export interface ApiSyncProjectFilesApiV1SyncProjectFilesPostRequest {
     projectId: number;
-}
-
-export interface DeleteFileApiV1DeleteFileDeleteRequest {
-    deleteFileRequest: DeleteFileRequest;
 }
 
 export interface ListProjectFilesApiV1ListProjectFilesProjectIdGetRequest {
@@ -58,80 +40,6 @@ export interface UploadFileApiV1UploadFilePostRequest {
  * 
  */
 export class FilesApi extends runtime.BaseAPI {
-
-    /**
-     * Api Add Directory To Project
-     */
-    async apiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRaw(requestParameters: ApiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.addDirectoryToProjectRequest === null || requestParameters.addDirectoryToProjectRequest === undefined) {
-            throw new runtime.RequiredError('addDirectoryToProjectRequest','Required parameter requestParameters.addDirectoryToProjectRequest was null or undefined when calling apiAddDirectoryToProjectApiV1AddDirectoryToProjectPost.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/api/v1/add_directory_to_project`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: AddDirectoryToProjectRequestToJSON(requestParameters.addDirectoryToProjectRequest),
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Api Add Directory To Project
-     */
-    async apiAddDirectoryToProjectApiV1AddDirectoryToProjectPost(requestParameters: ApiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.apiAddDirectoryToProjectApiV1AddDirectoryToProjectPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Api Remove Directory From Project
-     */
-    async apiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRaw(requestParameters: ApiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.addDirectoryToProjectRequest === null || requestParameters.addDirectoryToProjectRequest === undefined) {
-            throw new runtime.RequiredError('addDirectoryToProjectRequest','Required parameter requestParameters.addDirectoryToProjectRequest was null or undefined when calling apiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPost.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/api/v1/remove_directory_from_project`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: AddDirectoryToProjectRequestToJSON(requestParameters.addDirectoryToProjectRequest),
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Api Remove Directory From Project
-     */
-    async apiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPost(requestParameters: ApiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.apiRemoveDirectoryFromProjectApiV1RemoveDirectoryFromProjectPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
 
     /**
      * Api Sync Project Files
@@ -168,43 +76,6 @@ export class FilesApi extends runtime.BaseAPI {
      */
     async apiSyncProjectFilesApiV1SyncProjectFilesPost(requestParameters: ApiSyncProjectFilesApiV1SyncProjectFilesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.apiSyncProjectFilesApiV1SyncProjectFilesPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Delete File
-     */
-    async deleteFileApiV1DeleteFileDeleteRaw(requestParameters: DeleteFileApiV1DeleteFileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.deleteFileRequest === null || requestParameters.deleteFileRequest === undefined) {
-            throw new runtime.RequiredError('deleteFileRequest','Required parameter requestParameters.deleteFileRequest was null or undefined when calling deleteFileApiV1DeleteFileDelete.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/api/v1/delete_file`,
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-            body: DeleteFileRequestToJSON(requestParameters.deleteFileRequest),
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Delete File
-     */
-    async deleteFileApiV1DeleteFileDelete(requestParameters: DeleteFileApiV1DeleteFileDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.deleteFileApiV1DeleteFileDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

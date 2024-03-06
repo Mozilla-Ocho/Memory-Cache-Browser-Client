@@ -16,17 +16,14 @@
 import * as runtime from '../runtime';
 import type {
   HTTPValidationError,
-  IngestProjectFilesRequest,
 } from '../models/index';
 import {
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
-    IngestProjectFilesRequestFromJSON,
-    IngestProjectFilesRequestToJSON,
 } from '../models/index';
 
 export interface IngestProjectFilesApiV1IngestProjectFilesPostRequest {
-    ingestProjectFilesRequest: IngestProjectFilesRequest;
+    projectId: number;
 }
 
 /**
@@ -38,22 +35,23 @@ export class IngestApi extends runtime.BaseAPI {
      * Ingest Project Files
      */
     async ingestProjectFilesApiV1IngestProjectFilesPostRaw(requestParameters: IngestProjectFilesApiV1IngestProjectFilesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.ingestProjectFilesRequest === null || requestParameters.ingestProjectFilesRequest === undefined) {
-            throw new runtime.RequiredError('ingestProjectFilesRequest','Required parameter requestParameters.ingestProjectFilesRequest was null or undefined when calling ingestProjectFilesApiV1IngestProjectFilesPost.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling ingestProjectFilesApiV1IngestProjectFilesPost.');
         }
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters.projectId !== undefined) {
+            queryParameters['project_id'] = requestParameters.projectId;
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/v1/ingest_project_files`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: IngestProjectFilesRequestToJSON(requestParameters.ingestProjectFilesRequest),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {

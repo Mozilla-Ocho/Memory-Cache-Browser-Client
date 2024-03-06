@@ -50,7 +50,7 @@ const Project: React.FC = (props) => {
     const activeProjectId = activeProject.id;
     setActiveProject(undefined);
     await projectsApi.deleteProjectApiV1DeleteProjectDelete({
-      deleteProjectRequest: { projectId: activeProjectId },
+      projectId: activeProjectId,
     });
     await reloadProjects();
   };

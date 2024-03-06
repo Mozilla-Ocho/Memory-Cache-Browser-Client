@@ -19,7 +19,7 @@ export default function NewProjectDialog() {
   const handleSubmit = async () => {
     setShowLoading(true);
     const response = await projectsApi.createProjectApiV1CreateProjectPost({
-      createProjectRequest: { projectName },
+      projectName,
     });
     await reloadProjects();
     setActiveProject(response.projects[0]);

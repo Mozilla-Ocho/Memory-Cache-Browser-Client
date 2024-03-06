@@ -15,16 +15,10 @@
 
 import * as runtime from '../runtime';
 import type {
-  CreateProjectRequest,
-  DeleteProjectRequest,
   HTTPValidationError,
   ListProjectsResponse,
 } from '../models/index';
 import {
-    CreateProjectRequestFromJSON,
-    CreateProjectRequestToJSON,
-    DeleteProjectRequestFromJSON,
-    DeleteProjectRequestToJSON,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
     ListProjectsResponseFromJSON,
@@ -36,7 +30,7 @@ export interface ApiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteReque
 }
 
 export interface CreateProjectApiV1CreateProjectPostRequest {
-    createProjectRequest: CreateProjectRequest;
+    projectName: string;
 }
 
 export interface CreateProjectDirectoryApiV1CreateProjectDirectoryPostRequest {
@@ -45,7 +39,7 @@ export interface CreateProjectDirectoryApiV1CreateProjectDirectoryPostRequest {
 }
 
 export interface DeleteProjectApiV1DeleteProjectDeleteRequest {
-    deleteProjectRequest: DeleteProjectRequest;
+    projectId: number;
 }
 
 export interface ListProjectDirectoriesApiV1ListProjectDirectoriesGetRequest {
@@ -99,22 +93,23 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Create Project
      */
     async createProjectApiV1CreateProjectPostRaw(requestParameters: CreateProjectApiV1CreateProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListProjectsResponse>> {
-        if (requestParameters.createProjectRequest === null || requestParameters.createProjectRequest === undefined) {
-            throw new runtime.RequiredError('createProjectRequest','Required parameter requestParameters.createProjectRequest was null or undefined when calling createProjectApiV1CreateProjectPost.');
+        if (requestParameters.projectName === null || requestParameters.projectName === undefined) {
+            throw new runtime.RequiredError('projectName','Required parameter requestParameters.projectName was null or undefined when calling createProjectApiV1CreateProjectPost.');
         }
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters.projectName !== undefined) {
+            queryParameters['project_name'] = requestParameters.projectName;
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/v1/create_project`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateProjectRequestToJSON(requestParameters.createProjectRequest),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ListProjectsResponseFromJSON(jsonValue));
@@ -178,22 +173,23 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Delete Project
      */
     async deleteProjectApiV1DeleteProjectDeleteRaw(requestParameters: DeleteProjectApiV1DeleteProjectDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.deleteProjectRequest === null || requestParameters.deleteProjectRequest === undefined) {
-            throw new runtime.RequiredError('deleteProjectRequest','Required parameter requestParameters.deleteProjectRequest was null or undefined when calling deleteProjectApiV1DeleteProjectDelete.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling deleteProjectApiV1DeleteProjectDelete.');
         }
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters.projectId !== undefined) {
+            queryParameters['project_id'] = requestParameters.projectId;
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/v1/delete_project`,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: DeleteProjectRequestToJSON(requestParameters.deleteProjectRequest),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
