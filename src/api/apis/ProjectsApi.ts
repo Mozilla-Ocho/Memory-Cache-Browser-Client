@@ -31,6 +31,10 @@ import {
     ListProjectsResponseToJSON,
 } from '../models/index';
 
+export interface ApiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRequest {
+    directoryId: number;
+}
+
 export interface CreateProjectApiV1CreateProjectPostRequest {
     createProjectRequest: CreateProjectRequest;
 }
@@ -44,10 +48,6 @@ export interface DeleteProjectApiV1DeleteProjectDeleteRequest {
     deleteProjectRequest: DeleteProjectRequest;
 }
 
-export interface DeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRequest {
-    directoryId: number;
-}
-
 export interface ListProjectDirectoriesApiV1ListProjectDirectoriesGetRequest {
     projectId: number;
 }
@@ -56,6 +56,44 @@ export interface ListProjectDirectoriesApiV1ListProjectDirectoriesGetRequest {
  * 
  */
 export class ProjectsApi extends runtime.BaseAPI {
+
+    /**
+     * Api Delete Project Directory
+     */
+    async apiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRaw(requestParameters: ApiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.directoryId === null || requestParameters.directoryId === undefined) {
+            throw new runtime.RequiredError('directoryId','Required parameter requestParameters.directoryId was null or undefined when calling apiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDelete.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.directoryId !== undefined) {
+            queryParameters['directory_id'] = requestParameters.directoryId;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/delete_project_directory`,
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Api Delete Project Directory
+     */
+    async apiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDelete(requestParameters: ApiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.apiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Create Project
@@ -170,44 +208,6 @@ export class ProjectsApi extends runtime.BaseAPI {
      */
     async deleteProjectApiV1DeleteProjectDelete(requestParameters: DeleteProjectApiV1DeleteProjectDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.deleteProjectApiV1DeleteProjectDeleteRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Delete Project Directory
-     */
-    async deleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRaw(requestParameters: DeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        if (requestParameters.directoryId === null || requestParameters.directoryId === undefined) {
-            throw new runtime.RequiredError('directoryId','Required parameter requestParameters.directoryId was null or undefined when calling deleteProjectDirectoryApiV1DeleteProjectDirectoryDelete.');
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters.directoryId !== undefined) {
-            queryParameters['directory_id'] = requestParameters.directoryId;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/v1/delete_project_directory`,
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Delete Project Directory
-     */
-    async deleteProjectDirectoryApiV1DeleteProjectDirectoryDelete(requestParameters: DeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.deleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

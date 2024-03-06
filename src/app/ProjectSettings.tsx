@@ -145,6 +145,14 @@ export default function Example() {
     // TODO: Cause the ProjectFileListCondensed to refresh
   }
 
+  async function deleteProject() {
+    await projectsApi.deleteProjectApiV1DeleteProjectDelete({
+      deleteProjectRequest: {
+        projectId: activeProject.id,
+      },
+    });
+  }
+
   return (
     <>
       <div className="px-4 sm:px-0">
@@ -228,6 +236,13 @@ export default function Example() {
             onClick={syncFiles}
           >
             Sync Files
+          </button>
+
+          <button
+            className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={deleteProject}
+          >
+            Delete Project
           </button>
 
           <ProjectFileListCondensed />

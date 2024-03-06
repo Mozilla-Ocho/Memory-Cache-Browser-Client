@@ -64,6 +64,7 @@ Further instructions for building releases are in the [Memory Cache Hub README](
 
 - [x] Add llamafile management to the client
 - [x] Fix selection in client sidebar
+- [x] Add delete project button
 - [ ] Redo ingestion to support "ProjectDirectory"s
 - [ ] Add rag ask api to the client
 - [ ] Create job queue for each project and allow users to view and manage jobs.

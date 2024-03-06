@@ -38,6 +38,12 @@ export interface Project {
      * @memberof Project
      */
     name: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Project
+     */
+    isRemoved?: boolean;
 }
 
 /**
@@ -62,6 +68,7 @@ export function ProjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): P
         
         'id': !exists(json, 'id') ? undefined : IdFromJSON(json['id']),
         'name': json['name'],
+        'isRemoved': !exists(json, 'is_removed') ? undefined : json['is_removed'],
     };
 }
 
@@ -76,6 +83,7 @@ export function ProjectToJSON(value?: Project | null): any {
         
         'id': IdToJSON(value.id),
         'name': value.name,
+        'is_removed': value.isRemoved,
     };
 }
 
