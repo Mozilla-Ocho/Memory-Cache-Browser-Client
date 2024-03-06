@@ -7,6 +7,25 @@ export default function Example() {
 
   const [files, setFiles] = useState([]);
 
+  function getFileTypeFromFileName(filename) {
+    const parts = filename.split(".");
+    const extension = parts[parts.length - 1];
+    return extension;
+  }
+
+  function getFileNameFromPath(path) {
+    const parts = path.split("/");
+    return parts[parts.length - 1];
+  }
+
+  function getOneLevelUpDirectoryFromPath(path) {
+    const parts = path.split("/");
+    parts.pop();
+    lastPart = parts.pop();
+    // Replace __ with / to get the original directory name
+    return lastPart.replace(/__/g, "/");
+  }
+
   async function listProjectFiles() {
     const response =
       await filesApi.listProjectFilesApiV1ListProjectFilesProjectIdGet({
@@ -16,10 +35,9 @@ export default function Example() {
     setFiles(
       response.map((file) => {
         return {
-          id: 0,
-          sourceDirectory: 0,
-          filename: file,
-          filetype: "TODO",
+          projectDirectory: getOneLevelUpDirectoryFromPath(file),
+          filename: getFileNameFromPath(file),
+          filetype: getFileTypeFromFileName(file),
         };
       }),
     );
@@ -27,7 +45,7 @@ export default function Example() {
 
   useEffect(() => {
     listProjectFiles();
-  }, [filesApi]);
+  }, [filesApi, activeProject]);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -37,17 +55,8 @@ export default function Example() {
             Project File List
           </h1>
           <p className="mt-2 text-sm text-gray-700">
-            A table of placeholder stock market data that does not make any
-            sense.
+            Files that have been added to the project.
           </p>
-        </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button
-            type="button"
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Export
-          </button>
         </div>
       </div>
       <div className="mt-8 flow-root">
@@ -58,15 +67,9 @@ export default function Example() {
                 <tr>
                   <th
                     scope="col"
-                    className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                  >
-                    File ID
-                  </th>
-                  <th
-                    scope="col"
                     className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
-                    Source Directory
+                    Directory
                   </th>
                   <th
                     scope="col"
@@ -80,64 +83,19 @@ export default function Example() {
                   >
                     Filetype
                   </th>
-                  <th
-                    scope="col"
-                    className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    placeholder
-                  </th>
-                  <th
-                    scope="col"
-                    className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    placeholder
-                  </th>
-                  <th
-                    scope="col"
-                    className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    placeholder
-                  </th>
-                  <th
-                    scope="col"
-                    className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-0"
-                  >
-                    <span className="sr-only">Edit</span>
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
                 {files.map((file) => (
                   <tr key={file.id}>
-                    <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                      {file.id || "N/A"}
-                    </td>
-                    <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                      {file.sourceDirectory || "N/A"}
+                    <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
+                      {file.projectDirectory || "N/A"}
                     </td>
                     <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                       {file.filename || "N/A"}
                     </td>
                     <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
                       {file.filetype || "N/A"}
-                    </td>
-                    <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                      {"placeholder"}
-                    </td>
-                    <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                      {"placeholder"}
-                    </td>
-                    <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                      {"placeholder"}
-                    </td>
-                    <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                      <a
-                        href="#"
-                        className="text-indigo-600 hover:text-indigo-900"
-                      >
-                        Edit
-                        <span className="sr-only">, {file.id || "N/A"}</span>
-                      </a>
                     </td>
                   </tr>
                 ))}

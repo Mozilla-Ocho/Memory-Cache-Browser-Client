@@ -211,6 +211,26 @@ export default function Example() {
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
+              Actions
+            </dt>
+            <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-3 sm:mt-0 gap-x-2">
+              <button
+                className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={syncFiles}
+              >
+                Sync Files
+              </button>
+
+              <button
+                className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={deleteProject}
+              >
+                Delete Project
+              </button>
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">
               Project Directories
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3 sm:mt-0">
@@ -233,70 +253,7 @@ export default function Example() {
             </dd>
           </div>
 
-          <button
-            className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={syncFiles}
-          >
-            Sync Files
-          </button>
-
-          <button
-            className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={deleteProject}
-          >
-            Delete Project
-          </button>
-
           <ProjectFileListCondensed />
-
-          <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Project Files
-            </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-3 sm:mt-0">
-              <ul
-                role="list"
-                className="divide-y divide-gray-100 rounded-md border border-gray-200"
-              >
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <FolderIcon
-                    className="h-5 w-5 flex-shrink-0 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                    <span className="font-medium">{"ABC"}</span>
-                  </div>
-                  <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                    <span className="font-medium">{"foo bar baz"}</span>
-                  </div>
-                </li>
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <FolderIcon
-                    className="h-5 w-5 flex-shrink-0 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                    <span className="font-medium">{"ABCkldjsalk;jsdalf"}</span>
-                  </div>
-                  <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                    <span className="font-medium">{"foo bar baz"}</span>
-                  </div>
-                </li>
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <FolderIcon
-                    className="h-5 w-5 flex-shrink-0 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                    <span className="font-medium">{"ABCkldjsalk;jsdalf"}</span>
-                  </div>
-                  <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                    <span className="font-medium">{"foo bar baz"}</span>
-                  </div>
-                </li>
-              </ul>
-            </dd>
-          </div>
         </dl>
       </div>
     </>
