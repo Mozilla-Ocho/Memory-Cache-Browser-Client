@@ -6,6 +6,7 @@ import ProjectFileListCondensed from "./ProjectFileListCondensed";
 import { PaperClipIcon } from "@heroicons/react/20/solid";
 import { FolderIcon } from "@heroicons/react/20/solid";
 import { FolderPlusIcon } from "@heroicons/react/20/solid";
+import TextBoxForm from "./TextBoxForm";
 
 function AddProjectDirectory({ refresh }) {
   const [path, setPath] = useState("");
@@ -119,9 +120,11 @@ function ProjectDirectory({
 }
 
 export default function Example() {
-  const { activeProject, projectsApi, filesApi, ingestApi } = useProject();
+  const { activeProject, projectsApi, filesApi, ingestApi, ragApi } =
+    useProject();
 
   const [projectDirectories, setProjectDirectories] = useState([]);
+  const [reply, setReply] = useState("");
 
   const doit = async () => {
     if (activeProject) {
@@ -165,6 +168,19 @@ export default function Example() {
         directoryId: directoryId,
       },
     );
+  }
+
+  async function ragAsk(prompt) {
+    console.log("prompt is:", prompt);
+    console.log("activeProject.id is:", activeProject.id);
+    const response = await ragApi.ragAskApiV1RagAskPost({
+      ragAskRequest: {
+        projectId: activeProject.id,
+        prompt,
+      },
+    });
+    console.log(response.response);
+    setReply(response.response);
   }
 
   return (
@@ -215,6 +231,18 @@ export default function Example() {
                   Update
                 </button>
               </span>
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">
+              Rag Ask
+            </dt>
+            <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-3 sm:mt-0">
+              <TextBoxForm onSubmit={ragAsk} />
+
+              <div>
+                <p>{reply}</p>
+              </div>
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">

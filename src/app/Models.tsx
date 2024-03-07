@@ -17,9 +17,7 @@ function LlamafileInfoRow({ llamafile }) {
     try {
       const response =
         await llamafileApi.checkLlamafileStatusApiV1CheckLlamafileStatusPost({
-          checkLlamafileStatusRequest: {
-            llamafileFilename: llamafile.filename,
-          },
+          llamafileFilename: llamafile.filename,
         });
       setStatus(response.status);
       if (response.status === "downloading") {
@@ -46,27 +44,21 @@ function LlamafileInfoRow({ llamafile }) {
 
   async function download() {
     await llamafileApi.downloadLlamafileByNameApiV1DownloadLlamafileByNamePost({
-      downloadLlamafileByNameRequest: {
-        llamafileFilename: llamafile.filename,
-      },
+      llamafileFilename: llamafile.filename,
     });
     getLlamafileStatus();
   }
 
   async function start() {
     await llamafileApi.apiStartLlamafileApiV1StartLlamafilePost({
-      downloadLlamafileByNameRequest: {
-        llamafileFilename: llamafile.filename,
-      },
+      llamafileFilename: llamafile.filename,
     });
     getLlamafileStatus();
   }
 
   async function stop() {
     await llamafileApi.apiStopLlamafileApiV1StopLlamafilePost({
-      downloadLlamafileByNameRequest: {
-        llamafileFilename: llamafile.filename,
-      },
+      llamafileFilename: llamafile.filename,
     });
     getLlamafileStatus();
   }
@@ -78,9 +70,7 @@ function LlamafileInfoRow({ llamafile }) {
 
   async function remove() {
     await llamafileApi.deleteLlamafileApiV1DeleteLlamafileDelete({
-      downloadLlamafileByNameRequest: {
-        llamafileFilename: llamafile.filename,
-      },
+      llamafileFilename: llamafile.filename,
     });
     getLlamafileStatus();
   }

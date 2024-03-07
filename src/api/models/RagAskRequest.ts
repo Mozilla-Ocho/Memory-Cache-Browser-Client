@@ -21,10 +21,10 @@ import { exists, mapValues } from '../runtime';
 export interface RagAskRequest {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof RagAskRequest
      */
-    projectId: string;
+    projectId: number;
     /**
      * 
      * @type {string}

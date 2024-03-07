@@ -66,8 +66,8 @@ Further instructions for building releases are in the [Memory Cache Hub README](
 - [x] Fix selection in client sidebar
 - [x] Add delete project button
 - [x] Reduce indirection in API request params
-- [ ] Redo ingestion to support "ProjectDirectory"s
-- [ ] Add rag ask api to the client
+- [x] Redo ingestion to support "ProjectDirectory"s
+- [x] Add rag ask api to the client
 - [ ] Create job queue for each project and allow users to view and manage jobs.
 - [ ] Support updating/changing project settings (name, directories, etc).
 

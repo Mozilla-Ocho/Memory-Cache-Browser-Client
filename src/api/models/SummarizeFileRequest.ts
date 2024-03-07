@@ -21,10 +21,10 @@ import { exists, mapValues } from '../runtime';
 export interface SummarizeFileRequest {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof SummarizeFileRequest
      */
-    projectId: string;
+    projectId: number;
     /**
      * 
      * @type {string}
