@@ -18,6 +18,7 @@ import { Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import ProjectSelectionListBox from "./ProjectSelectionListBox";
 import { useProject } from "./ProjectContext";
+import MemoryCacheLogo from "../MC-Brainprint1.svg";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
@@ -123,8 +124,8 @@ export default function DarkSidebar() {
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
+                        src={MemoryCacheLogo}
+                        alt="Memory Cache"
                       />
                     </div>
                     <nav className="flex flex-1 flex-col">
@@ -193,10 +194,13 @@ export default function DarkSidebar() {
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
             <div className="flex h-16 shrink-0 items-center">
               <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"
+                className="h-8 w-auto filter invert brightness-0"
+                src={MemoryCacheLogo}
+                alt="Memory Cache"
               />
+              <h2 className="ml-4 text-gray-300 text-lg font-semibold leading-6 truncate">
+                Memory Cache
+              </h2>
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
