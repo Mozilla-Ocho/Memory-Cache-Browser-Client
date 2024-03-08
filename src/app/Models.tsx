@@ -69,7 +69,7 @@ function LlamafileInfoRow({ llamafile }) {
   }
 
   async function remove() {
-    await llamafileApi.deleteLlamafileApiV1DeleteLlamafileDelete({
+    await llamafileApi.apiDeleteLlamafileApiV1DeleteLlamafileDelete({
       llamafileFilename: llamafile.filename,
     });
     getLlamafileStatus();
