@@ -732,7 +732,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/reporter-dev-server@npm:2.12.0":
+"@parcel/reporter-dev-server@npm:2.12.0, @parcel/reporter-dev-server@npm:^2.12.0":
   version: 2.12.0
   resolution: "@parcel/reporter-dev-server@npm:2.12.0"
   dependencies:
@@ -1816,6 +1816,7 @@ __metadata:
     "@headlessui/react": "npm:^2.0.0-alpha.4"
     "@heroicons/react": "npm:^2.1.1"
     "@parcel/core": "npm:^2.12.0"
+    "@parcel/reporter-dev-server": "npm:^2.12.0"
     "@tailwindcss/forms": "npm:^0.5.7"
     "@types/react": "npm:^18.2.61"
     "@types/react-dom": "npm:^18.2.19"

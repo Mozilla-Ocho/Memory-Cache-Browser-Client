@@ -5,6 +5,7 @@
     "@headlessui/react": "^2.0.0-alpha.4",
     "@heroicons/react": "^2.1.1",
     "@parcel/core": "^2.12.0",
+    "@parcel/reporter-dev-server": "^2.12.0",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
     "parcel": "^2.12.0",
