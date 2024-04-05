@@ -91,7 +91,7 @@ function LlamafileInfoRow({ llamafile }) {
   // If the status is "downloading", show a spinner and a cancel button
 
   return (
-    <tr key={llamafile.filename}>
+    <tr>
       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
         {llamafile.model}
       </td>
@@ -170,7 +170,7 @@ function LlamafileInfoRow({ llamafile }) {
   );
 }
 
-export default function Models() {
+function Models() {
   const { llamafileApi } = useProject();
   const [llamafiles, setLlamafiles] = useState([]);
   useEffect(() => {
