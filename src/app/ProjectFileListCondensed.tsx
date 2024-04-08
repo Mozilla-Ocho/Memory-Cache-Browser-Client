@@ -21,7 +21,7 @@ export default function Example() {
   function getOneLevelUpDirectoryFromPath(path) {
     const parts = path.split("/");
     parts.pop();
-    lastPart = parts.pop();
+    let lastPart = parts.pop();
     // Replace __ with / to get the original directory name
     return lastPart.replace(/__/g, "/");
   }
