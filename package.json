@@ -4,6 +4,7 @@
   "devDependencies": {
     "@headlessui/react": "^2.0.0-alpha.4",
     "@heroicons/react": "^2.1.1",
+    "@openapitools/openapi-generator-cli": "^2.13.1",
     "@parcel/core": "^2.12.0",
     "@parcel/reporter-dev-server": "^2.12.0",
     "@parcel/resolver-default": "^2.12.0",
