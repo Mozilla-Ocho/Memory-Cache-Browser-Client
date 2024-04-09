@@ -194,17 +194,9 @@ function Models() {
             Llamafiles
           </h1>
           <p className="mt-2 text-sm text-gray-700">
-            Llamafiles make it easy to download and run large language models on
-            your computer.
+            Llamafiles are programs that run large language models. Memory Cache
+            downloads and runs llamafiles locally on your computer.
           </p>
-        </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button
-            type="button"
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Add Llamafile
-          </button>
         </div>
       </div>
       <div className="mt-8 flow-root">

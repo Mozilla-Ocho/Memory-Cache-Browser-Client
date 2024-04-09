@@ -20,7 +20,7 @@ import ProjectSelectionListBox from "./ProjectSelectionListBox";
 import { useProject } from "./ProjectContext";
 import MemoryCacheLogo from "../MC-Brainprint1.svg";
 
-const navigation = [{ name: "Models", href: "/models", icon: CpuChipIcon }];
+const navigation = [{ name: "Llamafiles", href: "/models", icon: CpuChipIcon }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

@@ -76,45 +76,76 @@ function ProjectDirectory({
   count: number;
   onDelete: (id: int) => void;
 }) {
+  const [expanded, setExpanded] = useState(false);
+  const expandButtonText = expanded ? "Collapse" : "Expand";
   const { projectsApi, activeProject } = useProject();
   return (
-    <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-      <div className="flex w-0 flex-1 items-center">
-        <FolderIcon
-          className="h-5 w-5 flex-shrink-0 text-gray-400"
-          aria-hidden="true"
-        />
-        <div className="ml-4 flex min-w-0 flex-1 gap-2">
-          <span className="truncate font-medium">{path}</span>
-          <span className="invisible flex-shrink-0 text-gray-400">
-            {count > 1
-              ? `${count} Documents`
-              : count === 1
-                ? "1 Document"
-                : "Empty"}
+    <li className="flex-col mx-4 leading-6">
+      <div
+        className="flex my-4 items-center justify-between h-full text-sm"
+        onClick={() => {
+          setExpanded(!expanded);
+        }}
+      >
+        <div className="flex w-0 flex-1 items-center">
+          <FolderIcon
+            className="h-5 w-5 flex-shrink-0 text-gray-400"
+            aria-hidden="true"
+          />
+          <div className="ml-4 flex h-full min-w-0 flex-1 gap-2">
+            <span
+              className="h-full"
+              onClick={(e) => {
+                console.log("hi");
+                e.preventDefault();
+                // Prevent bubbling
+                e.stopPropagation();
+              }}
+              className="truncate font-medium"
+            >
+              {path}
+            </span>
+            <span className="invisible flex-shrink-0 text-gray-400">
+              {count > 1
+                ? `${count} Documents`
+                : count === 1
+                  ? "1 Document"
+                  : "Empty"}
+            </span>
+          </div>
+        </div>
+        <div className="ml-4 flex flex-shrink-0 space-x-4 items-center">
+          <button
+            onClick={() => {
+              setExpanded(!expanded);
+            }}
+            type="button"
+            className="rounded-md bg-gray-200 p-2 font-medium text-gray-900 hover:text-gray-800"
+          >
+            {expandButtonText}
+          </button>
+          <span className="text-gray-200" aria-hidden="true">
+            |
           </span>
+          <button
+            onClick={() => {
+              onDelete(id);
+            }}
+            type="button"
+            className="rounded-md bg-gray-200 p-2 font-medium text-gray-900 hover:text-gray-800"
+          >
+            Remove
+          </button>
         </div>
       </div>
-      <div className="ml-4 flex flex-shrink-0 space-x-4">
-        <button
-          type="button"
-          className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
-        >
-          Refresh
-        </button>
-        <span className="text-gray-200" aria-hidden="true">
-          |
-        </span>
-        <button
-          onClick={() => {
-            onDelete(id);
-          }}
-          type="button"
-          className="rounded-md bg-white font-medium text-gray-900 hover:text-gray-800"
-        >
-          Remove
-        </button>
-      </div>
+      {expanded && (
+        <div className="flex w-full flex-col my-4 pt-4 space-y-2">
+          <div className="h-8">File</div>
+          <div className="h-8">File</div>
+          <div className="h-8">File</div>
+          <div className="h-8">File</div>
+        </div>
+      )}
     </li>
   );
 }
@@ -125,6 +156,18 @@ export default function Example() {
 
   const [projectDirectories, setProjectDirectories] = useState([]);
   const [reply, setReply] = useState("");
+  const [isEditingProjectName, setIsEditingProjectName] = useState(false);
+  const [projectName, setProjectName] = useState(activeProject?.name);
+  const [localProjectName, setLocalProjectName] = useState(activeProject?.name);
+
+  // Update the project name on the server when it changes locally, with useEffect
+  useEffect(() => {
+    // Use the projectsApi
+    if (projectName !== localProjectName) {
+      console.log("TODO: Update the project name on the server");
+      //setProjectName(localProjectName);
+    }
+  }, [localProjectName]);
 
   const doit = async () => {
     if (activeProject) {
@@ -186,31 +229,45 @@ export default function Example() {
   return (
     <>
       <div className="px-4">
-        <h3 className="text-base font-semibold leading-7 text-gray-900">
-          {activeProject?.name}
-        </h3>
-        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-          Cache Settings
-        </p>
+        {
+          // If the user is editing the project name, show the form
+          (isEditingProjectName && (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setIsEditingProjectName(false);
+                // Update the project name
+                {
+                  /* projectsApi.updateProjectApiV1UpdateProjectPut({
+                    projectId: activeProject.id,
+                    project: {
+                    name: projectName,
+                    },
+                    }); */
+                }
+              }}
+            >
+              <input
+                type="text"
+                value={localProjectName}
+                onChange={(e) => setLocalProjectName(e.target.value)}
+              />
+              <button type="submit">Save</button>
+            </form>
+          )) || (
+            <h3
+              onClick={() => {
+                setIsEditingProjectName(true);
+              }}
+              className="text-2xl font-semibold leading-7 text-gray-900"
+            >
+              {activeProject?.name}
+            </h3>
+          )
+        }
       </div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
-          <div className="px-4 py-6">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Project Name
-            </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 ">
-              <span className="flex-grow">{activeProject?.name}</span>
-              <span className="ml-4 flex-shrink-0">
-                <button
-                  type="button"
-                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Update
-                </button>
-              </span>
-            </dd>
-          </div>
           <div className="hidden px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               About
@@ -235,7 +292,7 @@ export default function Example() {
           </div>
           <div className="px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Rag Ask
+              Vector Search
             </dt>
             <dd className="mt-1 flex text-sm leading-6 text-gray-700 w-full">
               <div className="flex w-full justify-around">
@@ -276,7 +333,7 @@ export default function Example() {
           </div>
           <div className="px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Project Directories
+              Directories
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 ">
               <ul

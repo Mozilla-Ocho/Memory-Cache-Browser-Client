@@ -48,20 +48,10 @@ export default function Example() {
   }, [filesApi, activeProject]);
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <h1 className="text-base font-semibold leading-6 text-gray-900">
-            File List
-          </h1>
-          <p className="mt-2 text-sm text-gray-700">
-            Files that have been added to the project.
-          </p>
-        </div>
-      </div>
+    <div className="px-4">
       <div className="mt-8 flow-root">
-        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <div className="-mx-4 -my-2 overflow-x-auto -mx-8">
+          <div className="inline-block min-w-full py-2 align-middle px-8">
             <table className="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr>
