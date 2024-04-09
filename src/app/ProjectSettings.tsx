@@ -24,7 +24,7 @@ function AddProjectDirectory({ refresh }) {
       });
       refresh();
     } else {
-      console.error("No active project or path is empty");
+      console.error("No active cache or path is empty");
     }
   };
 
@@ -43,7 +43,7 @@ function AddProjectDirectory({ refresh }) {
             type="text" // Changed from "string" to "text" as it's the correct type for input
             name="dir"
             id="dirname"
-            className="pl-2 block w-full rounded-md border border-gray-300 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="pl-2 block w-full rounded-md border border-gray-300 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring focus:ring-indigo-500 focus:border-indigo-500 "
             placeholder="/path/to/directory"
             value={path}
             onChange={(e) => setPath(e.target.value)}
@@ -86,7 +86,7 @@ function ProjectDirectory({
         />
         <div className="ml-4 flex min-w-0 flex-1 gap-2">
           <span className="truncate font-medium">{path}</span>
-          <span className="flex-shrink-0 text-gray-400">
+          <span className="invisible flex-shrink-0 text-gray-400">
             {count > 1
               ? `${count} Documents`
               : count === 1
@@ -185,21 +185,21 @@ export default function Example() {
 
   return (
     <>
-      <div className="px-4 sm:px-0">
+      <div className="px-4">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           {activeProject?.name}
         </h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-          Project Settings
+          Cache Settings
         </p>
       </div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
-          <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">
+          <div className="px-4 py-6">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               Project Name
             </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-3 sm:mt-0">
+            <dd className="mt-1 flex text-sm leading-6 text-gray-700 ">
               <span className="flex-grow">{activeProject?.name}</span>
               <span className="ml-4 flex-shrink-0">
                 <button
@@ -211,11 +211,11 @@ export default function Example() {
               </span>
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">
+          <div className="hidden px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               About
             </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-3 sm:mt-0">
+            <dd className="mt-1 flex text-sm leading-6 text-gray-700 ">
               <span className="flex-grow">
                 Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
                 incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
@@ -233,23 +233,25 @@ export default function Example() {
               </span>
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">
+          <div className="px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               Rag Ask
             </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-3 sm:mt-0">
-              <TextBoxForm onSubmit={ragAsk} />
+            <dd className="mt-1 flex text-sm leading-6 text-gray-700 w-full">
+              <div className="flex w-full justify-around">
+                <TextBoxForm onSubmit={ragAsk} />
 
-              <div>
-                <p>{reply}</p>
+                <div>
+                  <p>{reply || "reply goes here"}</p>
+                </div>
               </div>
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">
+          <div className="px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               Actions
             </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-3 sm:mt-0 gap-x-2">
+            <dd className="mt-1 flex text-sm leading-6 text-gray-700 gap-x-2">
               <button
                 className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={syncFiles}
@@ -272,11 +274,11 @@ export default function Example() {
               </button>
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-0">
+          <div className="px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               Project Directories
             </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3 sm:mt-0">
+            <dd className="mt-1 text-sm leading-6 text-gray-700 ">
               <ul
                 role="list"
                 className="divide-y divide-gray-100 rounded-md border border-gray-200"

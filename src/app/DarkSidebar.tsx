@@ -20,18 +20,7 @@ import ProjectSelectionListBox from "./ProjectSelectionListBox";
 import { useProject } from "./ProjectContext";
 import MemoryCacheLogo from "../MC-Brainprint1.svg";
 
-const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
-  { name: "Models", href: "/models", icon: CpuChipIcon },
-  { name: "Prompts", href: "/prompts", icon: DocumentDuplicateIcon },
-  { name: "Jobs", href: "/jobs", icon: QueueListIcon },
-  { name: "Project Settings", href: "/projects/:projectId", icon: CogIcon },
-];
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
+const navigation = [{ name: "Models", href: "/models", icon: CpuChipIcon }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -100,7 +89,7 @@ export default function DarkSidebar() {
                 </li>
                 <li>
                   <div className="text-xs font-semibold leading-6 text-gray-400">
-                    Your Projects
+                    Your Caches
                   </div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {projects.map((project) => (
@@ -128,11 +117,11 @@ export default function DarkSidebar() {
                       type="button"
                       className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                     >
-                      Create New Project
+                      New Cache
                     </button>
                   </ul>
                 </li>
-                <li className="-mx-6 mt-auto">
+                <li className="hidden -mx-6 mt-auto">
                   <Link
                     href={`/settings`}
                     to={`/settings`}
