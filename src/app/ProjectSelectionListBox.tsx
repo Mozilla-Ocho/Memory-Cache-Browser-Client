@@ -1,8 +1,7 @@
-import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { useProject } from "./ProjectContext";
-import { Project } from "../api/models/Project";
+import { Fragment, useContext } from "react";
+import { ProjectContext } from "./ProjectContext";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -20,7 +19,7 @@ export default function Example() {
     /* projectsApi, */
     /* ragApi, */
     /* summariesApi, */
-  } = useProject();
+  } = useContext(ProjectContext);
   return (
     <Listbox value={activeProject} onChange={setActiveProject}>
       {({ open }) => (

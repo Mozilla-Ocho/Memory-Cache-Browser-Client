@@ -1,11 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useProject } from "./ProjectContext";
-
-export default function Example({
-  projectFileList,
-}: {
-  projectFileList: string[];
-}) {
+function ProjectFileList({ projectFileList }: { projectFileList: string[] }) {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       {/*
@@ -90,3 +83,4 @@ export default function Example({
     </div>
   );
 }
+export default ProjectFileList;

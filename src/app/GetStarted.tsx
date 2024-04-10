@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import NewProjectDialog from "./NewProjectDialog";
-import { useProject } from "./ProjectContext";
+import { useContext } from "react";
+import { ProjectContext } from "./ProjectContext";
 
 export default function GetStarted() {
-  const { setOpenNewProjectDialog } = useProject();
+  const { setOpenNewProjectDialog } = useContext(ProjectContext);
 
   return (
     <>

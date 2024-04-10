@@ -1,9 +1,9 @@
 import React from "react";
-import { useProject } from "./ProjectContext";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ProjectContext } from "./ProjectContext";
 
 function LlamafileInfoRow({ llamafile }) {
-  const { llamafileApi } = useProject();
+  const { llamafileApi } = useContext(ProjectContext);
   const [status, setStatus] = useState("idle");
   const [downloadProgress, setDownloadProgress] = useState(0);
 
@@ -171,7 +171,7 @@ function LlamafileInfoRow({ llamafile }) {
 }
 
 function Models() {
-  const { llamafileApi } = useProject();
+  const { llamafileApi } = useContext(ProjectContext);
   const [llamafiles, setLlamafiles] = useState([]);
   useEffect(() => {
     async function getLlamafiles() {

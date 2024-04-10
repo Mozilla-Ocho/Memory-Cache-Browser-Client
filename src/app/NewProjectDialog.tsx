@@ -1,8 +1,8 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
-
-import { useProject } from "./ProjectContext";
+import { useContext } from "react";
+import { ProjectContext } from "./ProjectContext";
 
 export default function NewProjectDialog() {
   const [projectName, setProjectName] = useState("");
@@ -14,7 +14,7 @@ export default function NewProjectDialog() {
     setActiveProject,
     openNewProjectDialog,
     setOpenNewProjectDialog,
-  } = useProject();
+  } = useContext(ProjectContext);
 
   const handleSubmit = async () => {
     setShowLoading(true);

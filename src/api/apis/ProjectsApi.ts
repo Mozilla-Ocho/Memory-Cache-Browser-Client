@@ -17,12 +17,15 @@ import * as runtime from '../runtime';
 import type {
   HTTPValidationError,
   ListProjectsResponse,
+  Project,
 } from '../models/index';
 import {
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
     ListProjectsResponseFromJSON,
     ListProjectsResponseToJSON,
+    ProjectFromJSON,
+    ProjectToJSON,
 } from '../models/index';
 
 export interface ApiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDeleteRequest {
@@ -44,6 +47,11 @@ export interface DeleteProjectApiV1DeleteProjectDeleteRequest {
 
 export interface ListProjectDirectoriesApiV1ListProjectDirectoriesGetRequest {
     projectId: number;
+}
+
+export interface UpdateProjectApiV1UpdateProjectPostRequest {
+    projectId: number;
+    projectName: string;
 }
 
 /**
@@ -268,6 +276,48 @@ export class ProjectsApi extends runtime.BaseAPI {
      */
     async listProjectsApiV1ListProjectsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListProjectsResponse> {
         const response = await this.listProjectsApiV1ListProjectsGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Update Project
+     */
+    async updateProjectApiV1UpdateProjectPostRaw(requestParameters: UpdateProjectApiV1UpdateProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Project>> {
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling updateProjectApiV1UpdateProjectPost.');
+        }
+
+        if (requestParameters.projectName === null || requestParameters.projectName === undefined) {
+            throw new runtime.RequiredError('projectName','Required parameter requestParameters.projectName was null or undefined when calling updateProjectApiV1UpdateProjectPost.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.projectId !== undefined) {
+            queryParameters['project_id'] = requestParameters.projectId;
+        }
+
+        if (requestParameters.projectName !== undefined) {
+            queryParameters['project_name'] = requestParameters.projectName;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/update_project`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ProjectFromJSON(jsonValue));
+    }
+
+    /**
+     * Update Project
+     */
+    async updateProjectApiV1UpdateProjectPost(requestParameters: UpdateProjectApiV1UpdateProjectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Project> {
+        const response = await this.updateProjectApiV1UpdateProjectPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

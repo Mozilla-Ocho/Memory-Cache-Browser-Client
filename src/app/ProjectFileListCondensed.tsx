@@ -1,9 +1,8 @@
-import { useProject } from "./ProjectContext";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ProjectContext } from "./ProjectContext";
 
 export default function Example() {
-  const { filesApi, activeProject } = useProject();
+  const { filesApi, activeProject } = useContext(ProjectContext);
 
   const [files, setFiles] = useState([]);
 

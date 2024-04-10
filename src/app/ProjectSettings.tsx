@@ -1,16 +1,12 @@
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect } from "react";
-import { useProject } from "./ProjectContext";
+import { FolderIcon, FolderPlusIcon } from "@heroicons/react/20/solid";
+import { useContext, useEffect, useState } from "react";
+import { ProjectContext } from "./ProjectContext";
 import ProjectFileListCondensed from "./ProjectFileListCondensed";
-
-import { PaperClipIcon } from "@heroicons/react/20/solid";
-import { FolderIcon } from "@heroicons/react/20/solid";
-import { FolderPlusIcon } from "@heroicons/react/20/solid";
 import TextBoxForm from "./TextBoxForm";
 
 function AddProjectDirectory({ refresh }) {
   const [path, setPath] = useState("");
-  const { projectsApi, activeProject } = useProject();
+  const { projectsApi, activeProject } = useContext(ProjectContext);
 
   const isPathEmpty = path.trim() === "";
   // Check if the path has characters that are not allowed in file names
@@ -78,7 +74,7 @@ function ProjectDirectory({
 }) {
   const [expanded, setExpanded] = useState(false);
   const expandButtonText = expanded ? "Collapse" : "Expand";
-  const { projectsApi, activeProject } = useProject();
+  const { projectsApi, activeProject } = useContext(ProjectContext);
   return (
     <li className="flex-col mx-4 leading-6">
       <div
@@ -150,9 +146,15 @@ function ProjectDirectory({
   );
 }
 
-export default function Example() {
-  const { activeProject, projectsApi, filesApi, ingestApi, ragApi } =
-    useProject();
+export default function ProjectSettings() {
+  const {
+    activeProject,
+    projectsApi,
+    filesApi,
+    ingestApi,
+    ragApi,
+    setActiveProject,
+  } = useContext(ProjectContext);
 
   const [projectDirectories, setProjectDirectories] = useState([]);
   const [reply, setReply] = useState("");
@@ -233,18 +235,16 @@ export default function Example() {
           // If the user is editing the project name, show the form
           (isEditingProjectName && (
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
                 setIsEditingProjectName(false);
-                // Update the project name
-                {
-                  /* projectsApi.updateProjectApiV1UpdateProjectPut({
+                const project =
+                  await projectsApi.updateProjectApiV1UpdateProjectPost({
                     projectId: activeProject.id,
-                    project: {
-                    name: projectName,
-                    },
-                    }); */
-                }
+                    projectName: localProjectName,
+                  });
+                console.log("project is:", project);
+                setActiveProject(project);
               }}
             >
               <input

@@ -10,10 +10,10 @@ sleep 1
 tmux new-window -n $WINDOW_NAME
 sleep 1
 tmux split-window -h
-sleep 0.1
+sleep 1
 tmux select-pane -t 0
 tmux split-window -v
-sleep 0.1
+sleep 1
 tmux select-pane -t 2
 tmux split-window -v
 sleep 1

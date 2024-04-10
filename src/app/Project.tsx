@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useProject } from "./ProjectContext";
-import ProjectFileList from "./ProjectFileList";
-import ProjectSelectionListBox from "./ProjectSelectionListBox";
 import GetStarted from "./GetStarted";
 import NewProjectDialog from "./NewProjectDialog";
+import { ProjectContext } from "./ProjectContext";
 import ProjectSettings from "./ProjectSettings";
 
 const Project: React.FC = (props) => {
@@ -21,7 +19,7 @@ const Project: React.FC = (props) => {
     projectsApi,
     ragApi,
     summariesApi,
-  } = useProject();
+  } = useContext(ProjectContext);
   const { projectId } = useParams();
   if (projectId && activeProject && parseInt(projectId) !== activeProject.id) {
     const project = projects.find(

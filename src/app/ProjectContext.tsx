@@ -29,15 +29,9 @@ interface ProjectContextType {
   setOpenNewProjectDialog: (open: boolean) => void;
 }
 
-const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
-
-export const useProject = () => {
-  const context = useContext(ProjectContext);
-  if (!context) {
-    throw new Error("useProject must be used within a ProjectProvider");
-  }
-  return context;
-};
+export const ProjectContext = createContext<ProjectContextType | undefined>(
+  undefined,
+);
 
 interface ProjectProviderProps {
   children: ReactNode;
@@ -67,6 +61,10 @@ export const ProjectProvider: React.FC<ProjectProviderProps> = ({
     const response = await projectsApi.listProjectsApiV1ListProjectsGet();
     return setProjects(response.projects);
   };
+
+  useEffect(() => {
+    reloadProjects();
+  }, []);
 
   return (
     <ProjectContext.Provider

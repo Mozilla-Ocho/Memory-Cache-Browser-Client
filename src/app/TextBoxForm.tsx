@@ -1,15 +1,12 @@
-import { Fragment, useState } from "react";
 import {
   FaceFrownIcon,
   FaceSmileIcon,
   FireIcon,
   HandThumbUpIcon,
   HeartIcon,
-  PaperClipIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
-import { Listbox, Transition } from "@headlessui/react";
-import { useProject } from "./ProjectContext";
+import { useState } from "react";
 
 const moods = [
   {

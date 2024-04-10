@@ -1,24 +1,8 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  CalendarIcon,
-  ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon,
-  CogIcon,
-  CpuChipIcon,
-  QueueListIcon,
-} from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import ProjectSelectionListBox from "./ProjectSelectionListBox";
-import { useProject } from "./ProjectContext";
+import { CpuChipIcon } from "@heroicons/react/24/outline";
+import { useContext, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import MemoryCacheLogo from "../MC-Brainprint1.svg";
+import { ProjectContext } from "./ProjectContext";
 
 const navigation = [{ name: "Llamafiles", href: "/models", icon: CpuChipIcon }];
 
@@ -33,7 +17,7 @@ export default function DarkSidebar() {
     activeProject,
     openNewProjectDialog,
     setOpenNewProjectDialog,
-  } = useProject();
+  } = useContext(ProjectContext);
   const location = useLocation();
   // Function to determine if the nav item is the current page
   const isCurrent = (href) => {
