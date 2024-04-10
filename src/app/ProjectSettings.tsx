@@ -1,8 +1,21 @@
 import { FolderIcon, FolderPlusIcon } from "@heroicons/react/20/solid";
+import { PencilIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import { useContext, useEffect, useState } from "react";
+import { twMerge } from "tailwind-merge";
+import {
+  buttonBase,
+  buttonColorsPrimary,
+  buttonColorsSecondary,
+  buttonColorsDanger,
+  tabHeader,
+  tabHeaderActive,
+} from "../styles/styles";
 import { ProjectContext } from "./ProjectContext";
 import ProjectFileListCondensed from "./ProjectFileListCondensed";
 import TextBoxForm from "./TextBoxForm";
+import FilesTab from "./FilesTab";
+import VectorSearchTab from "./VectorSearchTab";
+import ChatTab from "./ChatTab";
 
 function AddProjectDirectory({ refresh }) {
   const [path, setPath] = useState("");
@@ -146,6 +159,18 @@ function ProjectDirectory({
   );
 }
 
+let tabIndex = 0;
+const TABS = {
+  FILES: tabIndex++,
+  VECTOR_SEARCH: tabIndex++,
+  CHAT: tabIndex++,
+};
+const tabs = [
+  { id: TABS.FILES, name: "Files", component: FilesTab },
+  { id: TABS.VECTOR_SEARCH, name: "Vector Search", component: VectorSearchTab },
+  { id: TABS.CHAT, name: "Chat", component: ChatTab },
+];
+
 export default function ProjectSettings() {
   const {
     activeProject,
@@ -161,6 +186,16 @@ export default function ProjectSettings() {
   const [isEditingProjectName, setIsEditingProjectName] = useState(false);
   const [projectName, setProjectName] = useState(activeProject?.name);
   const [localProjectName, setLocalProjectName] = useState(activeProject?.name);
+  const [activeTab, setActiveTab] = useState(tabs[0].id); // Default to first tab
+
+  const handleKeyPress = (event, tabId) => {
+    // Check if the key pressed is Enter or Space
+    if (event.key === "Enter" || event.key === " ") {
+      // Prevent the default action to avoid scrolling on space press
+      event.preventDefault();
+      setActiveTab(tabId);
+    }
+  };
 
   // Update the project name on the server when it changes locally, with useEffect
   useEffect(() => {
@@ -230,67 +265,111 @@ export default function ProjectSettings() {
 
   return (
     <>
-      <div className="px-4">
-        {
-          // If the user is editing the project name, show the form
-          (isEditingProjectName && (
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                setIsEditingProjectName(false);
-                const project =
-                  await projectsApi.updateProjectApiV1UpdateProjectPost({
-                    projectId: activeProject.id,
-                    projectName: localProjectName,
-                  });
-                console.log("project is:", project);
-                setActiveProject(project);
-              }}
+      <div className="">
+        {(isEditingProjectName && (
+          <form
+            className="flex items-center space-x-2"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setIsEditingProjectName(false);
+              const project =
+                await projectsApi.updateProjectApiV1UpdateProjectPost({
+                  projectId: activeProject.id,
+                  projectName: localProjectName,
+                });
+              console.log("project is:", project);
+              setActiveProject(project);
+            }}
+          >
+            <input
+              type="text"
+              className={twMerge("h-8 rounded-md")}
+              value={localProjectName}
+              onChange={(e) => setLocalProjectName(e.target.value)}
+            />
+            <button
+              type="submit"
+              className={twMerge(buttonBase, buttonColorsPrimary)}
             >
-              <input
-                type="text"
-                value={localProjectName}
-                onChange={(e) => setLocalProjectName(e.target.value)}
+              Save
+            </button>
+            <button
+              onClick={() => {
+                setIsEditingProjectName(false);
+                setLocalProjectName(projectName);
+              }}
+              className={twMerge(buttonBase, buttonColorsDanger)}
+              type="button"
+            >
+              <XCircleIcon
+                className="h-5 w-5 flex-shrink-0 text-white"
+                aria-hidden="true"
               />
-              <button type="submit">Save</button>
-            </form>
-          )) || (
-            <h3
+            </button>
+          </form>
+        )) || (
+          <div className="flex space-x-4">
+            <h3 className="text-2xl font-light text-slate-900">
+              {activeProject?.name}
+            </h3>
+            <button
+              type="button"
+              className={twMerge(
+                buttonBase,
+                "px-1.5",
+                "py-0",
+                buttonColorsSecondary,
+                "bg-gray-400",
+              )}
               onClick={() => {
                 setIsEditingProjectName(true);
               }}
-              className="text-2xl font-semibold leading-7 text-gray-900"
             >
-              {activeProject?.name}
-            </h3>
-          )
-        }
+              <PencilIcon
+                className="h-5 w-5 flex-shrink-0 text-white"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
+        )}
       </div>
+      <fieldset className="flex justify-between my-8">
+        {tabs.map((tab) => (
+          <div key={tab.id} className="tab">
+            <input
+              type="radio"
+              id={`tab-${tab.id}`}
+              name="tab"
+              className="hidden"
+              checked={activeTab === tab.id}
+              onChange={() => setActiveTab(tab.id)}
+              aria-hidden="true"
+            />
+            <label
+              htmlFor={`tab-${tab.id}`}
+              className={twMerge(
+                tabHeader,
+                activeTab === tab.id && tabHeaderActive,
+              )}
+              tabIndex="0" // Make label focusable
+              onClick={() => setActiveTab(tab.id)}
+              onKeyPress={(event) => handleKeyPress(event, tab.id)}
+              // ARIA role for better screen reader support
+              role="button"
+              aria-pressed={activeTab === tab.id}
+            >
+              {tab.name}
+            </label>
+          </div>
+        ))}
+      </fieldset>
+
+      {activeTab == TABS.FILES && <FilesTab />}
+      {activeTab == TABS.VECTOR_SEARCH && <VectorSearchTab />}
+      {activeTab == TABS.CHAT && <ChatTab />}
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
           <div className="hidden px-4 py-6 ">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              About
-            </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 ">
-              <span className="flex-grow">
-                Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
-                incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
-                consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                proident. Irure nostrud pariatur mollit ad adipisicing
-                reprehenderit deserunt qui eu.
-              </span>
-              <span className="ml-4 flex-shrink-0">
-                <button
-                  type="button"
-                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Update
-                </button>
-              </span>
-            </dd>
-          </div>
-          <div className="px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               Vector Search
             </dt>
@@ -304,7 +383,7 @@ export default function ProjectSettings() {
               </div>
             </dd>
           </div>
-          <div className="px-4 py-6 ">
+          <div className="hidden px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               Actions
             </dt>
@@ -331,7 +410,7 @@ export default function ProjectSettings() {
               </button>
             </dd>
           </div>
-          <div className="px-4 py-6 ">
+          <div className="hidden px-4 py-6 ">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               Directories
             </dt>
@@ -354,8 +433,6 @@ export default function ProjectSettings() {
               </ul>
             </dd>
           </div>
-
-          <ProjectFileListCondensed />
         </dl>
       </div>
     </>

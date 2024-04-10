@@ -40,7 +40,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.21.0":
+"@babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.24.0":
   version: 7.24.4
   resolution: "@babel/runtime@npm:7.24.4"
   dependencies:
@@ -2044,6 +2044,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-router-dom: "npm:^6.22.2"
+    tailwind-merge: "npm:^2.2.2"
     tailwindcss: "npm:^3.4.1"
   languageName: unknown
   linkType: soft
@@ -4591,6 +4592,15 @@ __metadata:
   version: 6.2.0
   resolution: "tabbable@npm:6.2.0"
   checksum: 10c0/ced8b38f05f2de62cd46836d77c2646c42b8c9713f5bd265daf0e78ff5ac73d3ba48a7ca45f348bafeef29b23da7187c72250742d37627883ef89cbd7fa76898
+  languageName: node
+  linkType: hard
+
+"tailwind-merge@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "tailwind-merge@npm:2.2.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.24.0"
+  checksum: 10c0/68a5e199848a467aed4f8d1a8d7b6a5b583ff72f1d2801e018bf245eaa41e6564b63ead9e2b708a214cefbd843970c5e0a21754d5f2a20e2c1238e25955685ce
   languageName: node
   linkType: hard
 
