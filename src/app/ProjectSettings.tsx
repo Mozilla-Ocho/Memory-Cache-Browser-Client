@@ -197,15 +197,6 @@ export default function ProjectSettings() {
     }
   };
 
-  // Update the project name on the server when it changes locally, with useEffect
-  useEffect(() => {
-    // Use the projectsApi
-    if (projectName !== localProjectName) {
-      console.log("TODO: Update the project name on the server");
-      //setProjectName(localProjectName);
-    }
-  }, [localProjectName]);
-
   const doit = async () => {
     if (activeProject) {
       const result =
@@ -264,32 +255,36 @@ export default function ProjectSettings() {
   }
 
   return (
-    <>
-      <div className="">
-        {(isEditingProjectName && (
-          <form
-            className="flex items-center space-x-2"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setIsEditingProjectName(false);
-              const project =
-                await projectsApi.updateProjectApiV1UpdateProjectPost({
-                  projectId: activeProject.id,
-                  projectName: localProjectName,
-                });
-              console.log("project is:", project);
-              setActiveProject(project);
-            }}
-          >
-            <input
-              type="text"
-              className={twMerge("h-8 rounded-md")}
-              value={localProjectName}
-              onChange={(e) => setLocalProjectName(e.target.value)}
-            />
+    <div className="w-full max-w-screen-lg flex flex-col">
+      {(isEditingProjectName && (
+        <form
+          className="grid grid-cols-3 self-center"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setIsEditingProjectName(false);
+            const project =
+              await projectsApi.updateProjectApiV1UpdateProjectPost({
+                projectId: activeProject.id,
+                projectName: localProjectName,
+              });
+            setActiveProject(project);
+            setProjectName(project.name);
+            setLocalProjectName(project.name);
+          }}
+        >
+          <div></div>
+          <input
+            type="text"
+            className={twMerge(
+              "mx-4 h-8 rounded-md text-2xl font-light text-slate-900 text-center",
+            )}
+            value={localProjectName}
+            onChange={(e) => setLocalProjectName(e.target.value)}
+          />
+          <div className="flex items-center space-x-2">
             <button
               type="submit"
-              className={twMerge(buttonBase, buttonColorsPrimary)}
+              className={twMerge(buttonBase, buttonColorsPrimary, "flex-0")}
             >
               Save
             </button>
@@ -298,7 +293,7 @@ export default function ProjectSettings() {
                 setIsEditingProjectName(false);
                 setLocalProjectName(projectName);
               }}
-              className={twMerge(buttonBase, buttonColorsDanger)}
+              className={twMerge(buttonBase, buttonColorsDanger, "flex-0")}
               type="button"
             >
               <XCircleIcon
@@ -306,18 +301,22 @@ export default function ProjectSettings() {
                 aria-hidden="true"
               />
             </button>
-          </form>
-        )) || (
-          <div className="flex space-x-4">
-            <h3 className="text-2xl font-light text-slate-900">
-              {activeProject?.name}
-            </h3>
+          </div>
+        </form>
+      )) || (
+        <div className="grid grid-cols-3 self-center">
+          <div></div>
+          <h3 className="mx-4 text-2xl font-light text-slate-900 text-center">
+            {activeProject?.name}
+          </h3>
+          <div className="flex">
             <button
               type="button"
               className={twMerge(
                 buttonBase,
                 "px-1.5",
-                "py-0",
+                "py-1",
+                "self-center",
                 buttonColorsSecondary,
                 "bg-gray-400",
               )}
@@ -331,9 +330,9 @@ export default function ProjectSettings() {
               />
             </button>
           </div>
-        )}
-      </div>
-      <fieldset className="flex justify-between my-8">
+        </div>
+      )}
+      <fieldset className="self-center flex space-x-8 my-8">
         {tabs.map((tab) => (
           <div key={tab.id} className="tab">
             <input
@@ -367,74 +366,6 @@ export default function ProjectSettings() {
       {activeTab == TABS.FILES && <FilesTab />}
       {activeTab == TABS.VECTOR_SEARCH && <VectorSearchTab />}
       {activeTab == TABS.CHAT && <ChatTab />}
-      <div className="mt-6 border-t border-gray-100">
-        <dl className="divide-y divide-gray-100">
-          <div className="hidden px-4 py-6 ">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Vector Search
-            </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 w-full">
-              <div className="flex w-full justify-around">
-                <TextBoxForm onSubmit={ragAsk} />
-
-                <div>
-                  <p>{reply || "reply goes here"}</p>
-                </div>
-              </div>
-            </dd>
-          </div>
-          <div className="hidden px-4 py-6 ">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Actions
-            </dt>
-            <dd className="mt-1 flex text-sm leading-6 text-gray-700 gap-x-2">
-              <button
-                className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={syncFiles}
-              >
-                Sync Files
-              </button>
-
-              <button
-                className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={ingestFiles}
-              >
-                Ingest Files
-              </button>
-
-              <button
-                className="rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                onClick={deleteProject}
-              >
-                Delete Project
-              </button>
-            </dd>
-          </div>
-          <div className="hidden px-4 py-6 ">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Directories
-            </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 ">
-              <ul
-                role="list"
-                className="divide-y divide-gray-100 rounded-md border border-gray-200"
-              >
-                {projectDirectories.map((dir) => (
-                  <ProjectDirectory
-                    id={dir.id}
-                    path={dir.path}
-                    count={10}
-                    onDelete={async (directoryId) => {
-                      await deleteProjectDirectory(directoryId);
-                    }}
-                  />
-                ))}
-                <AddProjectDirectory refresh={doit} />
-              </ul>
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </>
+    </div>
   );
 }

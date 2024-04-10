@@ -50,3 +50,21 @@ export const tabHeader = [
 
 // Underline the text if selected
 export const tabHeaderActive = ["border-b-2", "border-blue-500"].join(" ");
+
+export const directoryRow = [
+    "flex",
+    "items-center",
+    "justify-between",
+    "w-full",
+    "px-4",
+    "rounded-md",
+    "py-2",
+    "bg-gray-100",
+    "cursor-pointer",
+    "hover:bg-gray-200",
+    "focus:bg-gray-200",
+    "focus:outline",
+    "focus:outline-2",
+    "focus:outline-offset-2",
+    "focus:outline-gray-500",
+].join(" ");

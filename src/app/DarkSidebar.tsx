@@ -10,7 +10,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function DarkSidebar() {
+function DarkSidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const {
     projects,
@@ -47,10 +47,10 @@ export default function DarkSidebar() {
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li>
+                <li key="navigation-items">
                   <ul role="list" className="-mx-2 space-y-1">
-                    {navigation.map((item) => (
-                      <li key={item.name}>
+                    {navigation.map((item, i) => (
+                      <li key={`nav-${i}`}>
                         <Link
                           href={item.href}
                           to={item.href}
@@ -71,13 +71,13 @@ export default function DarkSidebar() {
                     ))}
                   </ul>
                 </li>
-                <li>
+                <li key="cache-list">
                   <div className="text-xs font-semibold leading-6 text-gray-400">
                     Your Caches
                   </div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {projects.map((project) => (
-                      <li key={project.id}>
+                      <li key={`cache-${project.id}`}>
                         <Link
                           href={`/projects/${project.id}`}
                           to={`/projects/${project.id}`}
@@ -125,8 +125,8 @@ export default function DarkSidebar() {
           </div>
         </div>
 
-        <main className="py-10 pl-72">
-          <div className="px-4 px-8">
+        <main className="pl-72">
+          <div className="py-8 px-8">
             <Outlet />
           </div>
         </main>
@@ -134,3 +134,5 @@ export default function DarkSidebar() {
     </>
   );
 }
+
+export default DarkSidebar;

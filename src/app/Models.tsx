@@ -106,37 +106,43 @@ function LlamafileInfoRow({ llamafile }) {
       </td>
 
       {status === "absent" && (
-        <button
-          type="button"
-          onClick={download}
-          className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Download
-        </button>
+        <td>
+          <button
+            type="button"
+            onClick={download}
+            className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Download
+          </button>
+        </td>
       )}
 
       {status === "running" && (
-        <button
-          type="button"
-          onClick={stop}
-          className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Stop
-        </button>
+        <td>
+          <button
+            type="button"
+            onClick={stop}
+            className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Stop
+          </button>
+        </td>
       )}
 
       {status === "error" && (
-        <button
-          type="button"
-          onClick={retry}
-          className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Retry
-        </button>
+        <td>
+          <button
+            type="button"
+            onClick={retry}
+            className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Retry
+          </button>
+        </td>
       )}
 
       {status === "idle" && (
-        <>
+        <td>
           <button
             type="button"
             onClick={start}
@@ -151,11 +157,11 @@ function LlamafileInfoRow({ llamafile }) {
           >
             Delete
           </button>
-        </>
+        </td>
       )}
 
       {status === "downloading" && (
-        <>
+        <td>
           <h2>{downloadProgress}</h2>
           <button
             type="button"
@@ -164,7 +170,7 @@ function LlamafileInfoRow({ llamafile }) {
           >
             Cancel
           </button>
-        </>
+        </td>
       )}
     </tr>
   );
