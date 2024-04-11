@@ -58,13 +58,24 @@ export const directoryRow = [
     "w-full",
     "px-4",
     "rounded-md",
-    "py-2",
+    "py-4",
     "bg-gray-100",
-    "cursor-pointer",
+].join(" ");
+
+export const interactiveDirectoryRow = [
     "hover:bg-gray-200",
     "focus:bg-gray-200",
     "focus:outline",
     "focus:outline-2",
     "focus:outline-offset-2",
     "focus:outline-gray-500",
+].join(" ");
+
+export const linkBase = [
+    "text-blue-500",
+    "hover:underline",
+    "focus:outline",
+    "focus:outline-2",
+    "focus:outline-offset-2",
+    "focus:outline-blue-500",
 ].join(" ");
