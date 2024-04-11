@@ -211,6 +211,12 @@ export default function ProjectSettings() {
     doit();
   }, [activeProject]);
 
+  useEffect(() => {
+    setLocalProjectName(activeProject?.name);
+    setProjectName(activeProject?.name);
+    setIsEditingProjectName(false);
+  }, [activeProject]);
+
   async function syncFiles() {
     const response =
       await filesApi.apiSyncProjectFilesApiV1SyncProjectFilesPost({
@@ -321,6 +327,7 @@ export default function ProjectSettings() {
                 "bg-gray-400",
               )}
               onClick={() => {
+                setLocalProjectName(projectName);
                 setIsEditingProjectName(true);
               }}
             >

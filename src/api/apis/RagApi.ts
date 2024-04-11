@@ -29,6 +29,10 @@ export interface RagAskApiV1RagAskPostRequest {
     ragAskRequest: RagAskRequest;
 }
 
+export interface VectorDbQueryApiV1VectorDbQueryPostRequest {
+    ragAskRequest: RagAskRequest;
+}
+
 /**
  * 
  */
@@ -68,6 +72,43 @@ export class RagApi extends runtime.BaseAPI {
      */
     async ragAskApiV1RagAskPost(requestParameters: RagAskApiV1RagAskPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.ragAskApiV1RagAskPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Vector Db Query
+     */
+    async vectorDbQueryApiV1VectorDbQueryPostRaw(requestParameters: VectorDbQueryApiV1VectorDbQueryPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.ragAskRequest === null || requestParameters.ragAskRequest === undefined) {
+            throw new runtime.RequiredError('ragAskRequest','Required parameter requestParameters.ragAskRequest was null or undefined when calling vectorDbQueryApiV1VectorDbQueryPost.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/v1/vector_db_query`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: RagAskRequestToJSON(requestParameters.ragAskRequest),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Vector Db Query
+     */
+    async vectorDbQueryApiV1VectorDbQueryPost(requestParameters: VectorDbQueryApiV1VectorDbQueryPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.vectorDbQueryApiV1VectorDbQueryPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

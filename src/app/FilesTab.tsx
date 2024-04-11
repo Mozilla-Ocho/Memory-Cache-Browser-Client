@@ -1,7 +1,6 @@
-// TODO Get clipboard-document and clipboard-document-check from heroicons
 import {
-  ClipboardDocumentIcon,
   ClipboardDocumentCheckIcon,
+  ClipboardDocumentIcon,
 } from "@heroicons/react/24/outline";
 import { useContext, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -31,7 +30,7 @@ function getParentDirectory(path) {
   return parts.join("/");
 }
 
-function getOriginalFilePath(memCachePath) {
+export function getOriginalFilePath(memCachePath) {
   // Memory Cache stores a copy of the original file in a strange way.
   // For example, for the memCachePath below:
   // AI Blog Posts/uploads/__home__john__src__memory-cache-browser-client__src/api/.openapi-generator/FILES
