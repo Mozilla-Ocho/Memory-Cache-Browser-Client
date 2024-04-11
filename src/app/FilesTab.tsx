@@ -86,7 +86,6 @@ function FileList({ rerender }) {
       await filesApi.listProjectFilesApiV1ListProjectFilesProjectIdGet({
         projectId: activeProject.id,
       });
-    console.log("File list", fileList);
     setFileList(fileList);
   }
 
@@ -134,7 +133,6 @@ function FilesTab() {
       await projectsApi.listProjectDirectoriesApiV1ListProjectDirectoriesGet({
         projectId: activeProject?.id,
       });
-    console.log(projectDirectories);
     setProjectDirectories(projectDirectories);
   }
   useEffect(() => {
@@ -161,7 +159,6 @@ function FilesTab() {
                           directoryId: directory.id,
                         },
                       );
-                    console.log("Deleted directory", result);
                     setProjectDirectories([
                       projectDirectories.filter(
                         (projectDirectory) =>
@@ -188,9 +185,6 @@ function FilesTab() {
                     console.error("Invalid path");
                     return;
                   }
-                  console.log(
-                    `Adding directory ${newDirectoryPath} to project ${activeProject.name} (id: ${activeProject.id})`,
-                  );
 
                   const result =
                     await projectsApi.createProjectDirectoryApiV1CreateProjectDirectoryPost(
@@ -199,7 +193,6 @@ function FilesTab() {
                         path,
                       },
                     );
-                  console.log("Result", result);
                   getProjectDirectories();
 
                   setRerender(Math.random()); // Force rerender because file list needs to be updated
@@ -249,7 +242,6 @@ function FilesTab() {
               await filesApi.apiSyncProjectFilesApiV1SyncProjectFilesPost({
                 projectId: activeProject.id,
               });
-            console.log(result);
             getProjectDirectories();
             setRerender(Math.random()); // Force rerender because file list needs to be updated
           }}

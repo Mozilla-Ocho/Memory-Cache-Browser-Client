@@ -15,8 +15,6 @@ import { ProjectContext } from "./ProjectContext";
 
 function DbSearchResult({ result, i, query }) {
   const [showCopiedIcon, setShowCopiedIcon] = useState(false);
-  console.log("result", result);
-
   const fileContent = result.file_content;
   const lowercaseFileContent = fileContent.toLowerCase();
   const lowercaseQuery = query.toLowerCase();
@@ -55,6 +53,7 @@ function DbSearchResult({ result, i, query }) {
             buttonColorsSecondary,
             showCopiedIcon ? buttonColorsPrimary : "",
             "place-self-end",
+            "h-8",
           )}
           onClick={() => {
             navigator.clipboard.writeText(
@@ -153,12 +152,12 @@ function VectorSearchTab() {
           Vector database updated successfully!
         </div>
       )}
-      <div className="flex justify-between">
+      <div className="flex space-x-4 items-center my-8">
         <h1 className="font-light text-lg text-gray-400">Vector Search</h1>
         <button
           type="button"
           onClick={updateVectorDatabase}
-          className={twMerge(buttonBase, buttonColorsPrimary)}
+          className={twMerge(buttonBase, buttonColorsSecondary)}
         >
           <ArrowPathIcon
             className={twMerge(
@@ -169,8 +168,7 @@ function VectorSearchTab() {
           />
         </button>
       </div>
-      <div>
-        {/* Create a form field that allows the user to enter a query. We will perform a similarity search on the vector database using the ragApi */}
+      <div className="flex justify-between space-x-4 my-4">
         <input
           type="text"
           placeholder="Enter a query"
