@@ -64,7 +64,7 @@ export const ProjectProvider: React.FC<ProjectProviderProps> = ({
 
   useEffect(() => {
     reloadProjects();
-  }, []);
+  }, [activeProject]);
 
   return (
     <ProjectContext.Provider

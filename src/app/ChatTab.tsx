@@ -1,10 +1,14 @@
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
 import { useContext, useState, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   buttonBase,
   buttonColorsDanger,
   buttonColorsPrimary,
+  buttonColorsSecondary,
+  linkColor,
 } from "../styles/styles";
 import { ProjectContext } from "./ProjectContext";
 
@@ -25,11 +29,24 @@ function loadChatFromLocalStorage(projectId) {
 }
 
 function ChatTab() {
-  const { activeProject, ragApi } = useContext(ProjectContext);
+  const { activeProject, ragApi, llamafileApi } = useContext(ProjectContext);
   const [projectDirectories, setProjectDirectories] = useState<>([]);
   const [query, setQuery] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [runningModelInfo, setRunningModelInfo] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function checkModelRunning() {
+      const result =
+        await llamafileApi.apiRunningLlamafileInfoApiV1RunningLlamafileInfoGet();
+      console.log(result);
+      setRunningModelInfo(result);
+    }
+    checkModelRunning();
+  }, []);
 
   useEffect(() => {
     setChatMessages(loadChatFromLocalStorage(activeProject.id));
@@ -69,7 +86,33 @@ function ChatTab() {
 
   return (
     <div>
-      <h1 className="font-light text-lg text-gray-400 my-4">Chat Tab</h1>
+      <h1 className="font-light text-lg text-gray-400 my-4">Chat</h1>
+
+      {(!runningModelInfo && (
+        <p className="bg-red-200 w-full rounded-lg py-4 px-4 flex justify-between items-center">
+          No model is running.&nbsp;
+          <button
+            onClick={() => {
+              navigate("/models");
+            }}
+            className={twMerge(buttonBase, buttonColorsSecondary)}
+          >
+            Select a model
+          </button>
+        </p>
+      )) || (
+        <p className="bg-green-200 w-full rounded-lg py-4 px-4 flex justify-between items-center">
+          Running {runningModelInfo.model}. &nbsp;
+          <button
+            onClick={() => {
+              navigate("/models");
+            }}
+            className={twMerge(buttonBase, buttonColorsSecondary)}
+          >
+            Switch to a different model
+          </button>
+        </p>
+      )}
 
       {chatMessages.map((message, i) => (
         <p key={`chat-message-${i}`} className="text-gray-500 my-4">
@@ -107,7 +150,12 @@ function ChatTab() {
             setQuery("");
             appendChatMessage(query, "user");
           }}
-          className={twMerge(buttonBase, buttonColorsPrimary)}
+          disabled={!runningModelInfo}
+          className={twMerge(
+            buttonBase,
+            buttonColorsPrimary,
+            !!runningModelInfo ? "cursor-pointer" : "cursor-not-allowed",
+          )}
         >
           Send
         </button>

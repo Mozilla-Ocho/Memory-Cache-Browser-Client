@@ -11,6 +11,7 @@ import {
   tabHeaderActive,
 } from "../styles/styles";
 import { ProjectContext } from "./ProjectContext";
+import { toLocalStorage, fromLocalStorage } from "../utils/localStorage";
 import ProjectFileListCondensed from "./ProjectFileListCondensed";
 import TextBoxForm from "./TextBoxForm";
 import FilesTab from "./FilesTab";
@@ -43,7 +44,9 @@ export default function ProjectSettings() {
   const [isEditingProjectName, setIsEditingProjectName] = useState(false);
   const [projectName, setProjectName] = useState(activeProject?.name);
   const [localProjectName, setLocalProjectName] = useState(activeProject?.name);
-  const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const [activeTab, setActiveTab] = useState(
+    fromLocalStorage("activeTab", TABS.FILES),
+  );
 
   const handleKeyPress = (event, tabId) => {
     // Check if the key pressed is Enter or Space
@@ -60,6 +63,11 @@ export default function ProjectSettings() {
     setIsEditingProjectName(false);
   }, [activeProject]);
 
+  // Save the active tab to local storage
+  useEffect(() => {
+    toLocalStorage("activeTab", activeTab);
+  }, [activeTab]);
+
   return (
     <div className="w-full max-w-screen-lg flex flex-col">
       {(isEditingProjectName && (
@@ -67,15 +75,13 @@ export default function ProjectSettings() {
           className="grid grid-cols-3 self-center"
           onSubmit={async (e) => {
             e.preventDefault();
-            setIsEditingProjectName(false);
             const project =
               await projectsApi.updateProjectApiV1UpdateProjectPost({
                 projectId: activeProject.id,
                 projectName: localProjectName,
               });
+            console.log("Updated project name", project);
             setActiveProject(project);
-            setProjectName(project.name);
-            setLocalProjectName(project.name);
           }}
         >
           <div></div>

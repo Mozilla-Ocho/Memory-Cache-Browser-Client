@@ -147,6 +147,19 @@ function FilesTab() {
     getProjectDirectories();
   }, [activeProject, projectsApi]);
 
+  async function refreshFileList() {
+    // Refresh file list
+    setRefreshButtonText("Refreshing...");
+    const result = await filesApi.apiSyncProjectFilesApiV1SyncProjectFilesPost({
+      projectId: activeProject.id,
+    });
+    getProjectDirectories();
+    setRerender(Math.random()); // Force rerender because file list needs to be updated
+    setTimeout(() => {
+      setRefreshButtonText("Refresh");
+    }, 1000);
+  }
+
   return (
     <div>
       <h1 className="font-light text-lg text-gray-400 mb-4">Directories</h1>
@@ -203,6 +216,11 @@ function FilesTab() {
                     );
                   getProjectDirectories();
 
+                  // Automatically refresh the file list
+
+                  setRerender(Math.random()); // Force rerender because file list needs to be updated
+
+                  await refreshFileList();
                   setRerender(Math.random()); // Force rerender because file list needs to be updated
                 }}
               >
@@ -249,18 +267,8 @@ function FilesTab() {
             "h-8",
             refreshButtonText === "Refreshing..." ? "cursor-not-allowed" : "",
           )}
-          onClick={async () => {
-            // Refresh file list
-            setRefreshButtonText("Refreshing...");
-            const result =
-              await filesApi.apiSyncProjectFilesApiV1SyncProjectFilesPost({
-                projectId: activeProject.id,
-              });
-            getProjectDirectories();
-            setRerender(Math.random()); // Force rerender because file list needs to be updated
-            setTimeout(() => {
-              setRefreshButtonText("Refresh");
-            }, 1000);
+          onClick={() => {
+            refreshFileList();
           }}
         >
           {refreshButtonText}
