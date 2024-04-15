@@ -2,6 +2,7 @@ import {
   ClipboardDocumentCheckIcon,
   ClipboardDocumentIcon,
 } from "@heroicons/react/24/outline";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useContext, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
@@ -103,10 +104,16 @@ function FileList({ rerender }) {
           interactiveDirectoryRow,
           "w-full h-12",
           "font-light text-lg",
+          "space-x-4",
+          "pr-6",
         )}
       >
         <p>{`${fileList.length} files in cache`}</p>
-        <p>{isExpanded ? "[Click to Hide]" : "[Click to Expand]"}</p>
+        {isExpanded ? (
+          <EyeIcon className="w-6 h-6" />
+        ) : (
+          <EyeSlashIcon className="w-6 h-6" />
+        )}
       </button>
       {isExpanded && (
         <table className="w-full">
@@ -127,6 +134,7 @@ function FilesTab() {
   const [newDirectoryPath, setNewDirectoryPath] = useState("");
   const [pathInvalid, setPathInvalid] = useState(false);
   const [rerender, setRerender] = useState(Math.random()); // Hack used to force a rerender
+  const [refreshButtonText, setRefreshButtonText] = useState("Refresh");
 
   async function getProjectDirectories() {
     const projectDirectories =
@@ -235,18 +243,27 @@ function FilesTab() {
         <h1 className="font-light text-lg text-gray-400 mb-4">Files</h1>
         <button
           type="button"
-          className={twMerge(buttonBase, buttonColorsSecondary, "h-8")}
+          className={twMerge(
+            buttonBase,
+            buttonColorsSecondary,
+            "h-8",
+            refreshButtonText === "Refreshing..." ? "cursor-not-allowed" : "",
+          )}
           onClick={async () => {
             // Refresh file list
+            setRefreshButtonText("Refreshing...");
             const result =
               await filesApi.apiSyncProjectFilesApiV1SyncProjectFilesPost({
                 projectId: activeProject.id,
               });
             getProjectDirectories();
             setRerender(Math.random()); // Force rerender because file list needs to be updated
+            setTimeout(() => {
+              setRefreshButtonText("Refresh");
+            }, 1000);
           }}
         >
-          Refresh
+          {refreshButtonText}
         </button>
       </div>
       <FileList rerender={rerender} />

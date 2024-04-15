@@ -4,7 +4,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import MemoryCacheLogo from "../MC-Brainprint1.svg";
 import { ProjectContext } from "./ProjectContext";
 
-const navigation = [{ name: "Llamafiles", href: "/models", icon: CpuChipIcon }];
+const navigation = [{ name: "Models", href: "/models", icon: CpuChipIcon }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

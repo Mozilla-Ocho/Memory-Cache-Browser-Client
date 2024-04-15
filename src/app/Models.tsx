@@ -1,11 +1,15 @@
 import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "./ProjectContext";
+import { linkColor } from "../styles/styles";
+import { twMerge } from "tailwind-merge";
 
 function LlamafileInfoRow({ llamafile }) {
   const { llamafileApi } = useContext(ProjectContext);
   const [status, setStatus] = useState("idle");
   const [downloadProgress, setDownloadProgress] = useState(0);
+
+  const tableDataStyle = "whitespace-nowrap py-4 text-base text-gray-900";
 
   function randomStatus() {
     const statuses = ["idle", "downloading", "absent", "running", "error"];
@@ -91,22 +95,13 @@ function LlamafileInfoRow({ llamafile }) {
   // If the status is "downloading", show a spinner and a cancel button
 
   return (
-    <tr>
-      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-        {llamafile.model}
-      </td>
-      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        {llamafile.size}
-      </td>
-      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        {llamafile.filename}
-      </td>
-      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        {status}
-      </td>
+    <tr className="items-center">
+      <td className={tableDataStyle}>{llamafile.model}</td>
+      <td className={tableDataStyle}>{llamafile.size}</td>
+      <td className={tableDataStyle}>{status}</td>
 
       {status === "absent" && (
-        <td>
+        <td className={tableDataStyle}>
           <button
             type="button"
             onClick={download}
@@ -118,7 +113,7 @@ function LlamafileInfoRow({ llamafile }) {
       )}
 
       {status === "running" && (
-        <td>
+        <td className={tableDataStyle}>
           <button
             type="button"
             onClick={stop}
@@ -130,7 +125,7 @@ function LlamafileInfoRow({ llamafile }) {
       )}
 
       {status === "error" && (
-        <td>
+        <td className={tableDataStyle}>
           <button
             type="button"
             onClick={retry}
@@ -142,7 +137,7 @@ function LlamafileInfoRow({ llamafile }) {
       )}
 
       {status === "idle" && (
-        <td>
+        <td className={twMerge(tableDataStyle, "flex space-x-2")}>
           <button
             type="button"
             onClick={start}
@@ -161,8 +156,9 @@ function LlamafileInfoRow({ llamafile }) {
       )}
 
       {status === "downloading" && (
-        <td>
-          <h2>{downloadProgress}</h2>
+        <td className={twMerge(tableDataStyle, "flex space-x-2")}>
+          {/* For download progress, always show a fixed size number, which is 3 characters wide */}
+          <h2>{`${downloadProgress.toFixed(0).padStart(3)}%`}</h2>
           <button
             type="button"
             onClick={cancelDownload}
@@ -192,16 +188,23 @@ function Models() {
     getLlamafiles();
   }, [llamafileApi]);
 
+  const tableHeaderStyle = "py-3.5 text-left text-sm font-light text-gray-400";
+
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="max-w-screen-lg">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-base font-semibold leading-6 text-gray-900">
-            Llamafiles
-          </h1>
-          <p className="mt-2 text-sm text-gray-700">
-            Llamafiles are programs that run large language models. Memory Cache
-            downloads and runs llamafiles locally on your computer.
+          <h1 className="text-xl font-light text-gray-400 mb-4">Models</h1>
+          <p className="mt-2 text-base text-gray-700">
+            Select a large language model. Memory Cache will download and run
+            the model as a&nbsp;
+            <a
+              href="https://github.com/Mozilla-Ocho/llamafile?tab=readme-ov-file#llamafile"
+              className={linkColor}
+            >
+              llamafile
+            </a>
+            .
           </p>
         </div>
       </div>
@@ -211,36 +214,17 @@ function Models() {
             <table className="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr>
-                  <th
-                    scope="col"
-                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                  >
+                  <th scope="col" className={tableHeaderStyle}>
                     Name
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
+                  <th scope="col" className={tableHeaderStyle}>
                     Size
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    Filename
-                  </th>
-
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
+                  <th scope="col" className={tableHeaderStyle}>
                     Status
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    Action
+                  <th scope="col" className={tableHeaderStyle}>
+                    Actions
                   </th>
                 </tr>
               </thead>

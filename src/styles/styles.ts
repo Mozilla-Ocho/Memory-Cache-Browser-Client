@@ -79,3 +79,6 @@ export const linkBase = [
     "focus:outline-offset-2",
     "focus:outline-blue-500",
 ].join(" ");
+
+export const linkColor =
+    "text-blue-500 visited:text-purple-500 hover:text-blue-700";
