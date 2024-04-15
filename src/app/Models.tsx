@@ -19,7 +19,6 @@ function LlamafileInfoRow({ llamafile, forceRender, onLlamafileSelected }) {
   const isActive = status === "running";
 
   async function getLlamafileStatus() {
-    setStatus("loading");
     try {
       const response =
         await llamafileApi.checkLlamafileStatusApiV1CheckLlamafileStatusPost({
