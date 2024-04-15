@@ -1,20 +1,20 @@
 * todo
-** TODO Rename Llamafiles -> Models
-** TODO Restrict models page width
+** DONE Rename Llamafiles -> Models
+** DONE Restrict models page width
 ** TODO Add information to the dashboard
-** TODO Make new cache button open page
-** TODO Auto refresh on directory change
-** TODO Add ingestion status
-** TODO Add loading indicator in chat
-** TODO Add warning if no llamafile is running
-** TODO Make only one llamafile run at a time
+** DONE Make new cache button open page
+** DONE Auto refresh on directory change
+** DONE Add ingestion status
+** DONE Add loading indicator in chat
+** DONE Add warning if no llamafile is running
+** DONE Make only one llamafile run at a time
 ** TODO Auto-start llamafile if one is not running
 ** TODO Create demo video
 ** TODO Collect files for demo
 ** TODO Implement directory picker
 ** TODO Show rag results in chat
 ** TODO Save chat history in local storage
-** TODO Fix download progress
+** DONE Fix download progress
 ** TODO Remove large llamafile options
 
 * done
