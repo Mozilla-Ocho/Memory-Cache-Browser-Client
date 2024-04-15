@@ -231,7 +231,6 @@ function Models() {
   }, [llamafileApi]);
 
   function onLlamafileSelected(llamafile) {
-    console.log("llamafile selected", llamafile);
     setForceRender(Math.random());
   }
 

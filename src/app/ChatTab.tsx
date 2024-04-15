@@ -42,11 +42,26 @@ function ChatTab() {
     async function checkModelRunning() {
       const result =
         await llamafileApi.apiRunningLlamafileInfoApiV1RunningLlamafileInfoGet();
-      console.log(result);
       setRunningModelInfo(result);
     }
     checkModelRunning();
   }, []);
+
+  async function checkWaitingForChatStatus() {
+    const response =
+      await ragApi.checkWaitingForChatStatusApiV1CheckWaitingForChatStatusPost({
+        projectId: activeProject.id,
+      });
+    setIsLoading(response.isWaiting);
+  }
+
+  useEffect(() => {
+    checkWaitingForChatStatus();
+    const interval = setInterval(() => {
+      checkWaitingForChatStatus();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [activeProject]);
 
   useEffect(() => {
     setChatMessages(loadChatFromLocalStorage(activeProject.id));
@@ -67,7 +82,6 @@ function ChatTab() {
   }
 
   async function sendRagChatMessage(message) {
-    console.log("Asking memory cache about...", message);
     setIsLoading(true);
     const result = await ragApi.ragAskApiV1RagAskPost({
       ragAskRequest: {

@@ -19,7 +19,7 @@ import VectorSearchTab from "./VectorSearchTab";
 import ChatTab from "./ChatTab";
 
 let tabIndex = 0;
-const TABS = {
+export const TABS = {
   FILES: tabIndex++,
   VECTOR_SEARCH: tabIndex++,
   CHAT: tabIndex++,
@@ -47,6 +47,9 @@ export default function ProjectSettings() {
   const [activeTab, setActiveTab] = useState(
     fromLocalStorage("activeTab", TABS.FILES),
   );
+  if (fromLocalStorage("activeTab", TABS.FILES) !== activeTab) {
+    setActiveTab(fromLocalStorage("activeTab", TABS.FILES));
+  }
 
   const handleKeyPress = (event, tabId) => {
     // Check if the key pressed is Enter or Space
@@ -54,6 +57,7 @@ export default function ProjectSettings() {
       // Prevent the default action to avoid scrolling on space press
       event.preventDefault();
       setActiveTab(tabId);
+      toLocalStorage("activeTab", tabId);
     }
   };
 
@@ -62,11 +66,6 @@ export default function ProjectSettings() {
     setProjectName(activeProject?.name);
     setIsEditingProjectName(false);
   }, [activeProject]);
-
-  // Save the active tab to local storage
-  useEffect(() => {
-    toLocalStorage("activeTab", activeTab);
-  }, [activeTab]);
 
   return (
     <div className="w-full max-w-screen-lg flex flex-col">
@@ -80,7 +79,6 @@ export default function ProjectSettings() {
                 projectId: activeProject.id,
                 projectName: localProjectName,
               });
-            console.log("Updated project name", project);
             setActiveProject(project);
           }}
         >
@@ -154,7 +152,10 @@ export default function ProjectSettings() {
               name="tab"
               className="hidden"
               checked={activeTab === tab.id}
-              onChange={() => setActiveTab(tab.id)}
+              onChange={() => {
+                setActiveTab(tab.id);
+                toLocalStorage("activeTab", tab.id);
+              }}
               aria-hidden="true"
             />
             <label
@@ -164,7 +165,10 @@ export default function ProjectSettings() {
                 activeTab === tab.id && tabHeaderActive,
               )}
               tabIndex="0" // Make label focusable
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                setActiveTab(tab.id);
+                toLocalStorage("activeTab", tab.id);
+              }}
               onKeyPress={(event) => handleKeyPress(event, tab.id)}
               // ARIA role for better screen reader support
               role="button"

@@ -25,6 +25,10 @@ import {
     RagAskRequestToJSON,
 } from '../models/index';
 
+export interface CheckWaitingForChatStatusApiV1CheckWaitingForChatStatusPostRequest {
+    projectId: number;
+}
+
 export interface RagAskApiV1RagAskPostRequest {
     ragAskRequest: RagAskRequest;
 }
@@ -37,6 +41,44 @@ export interface VectorDbQueryApiV1VectorDbQueryPostRequest {
  * 
  */
 export class RagApi extends runtime.BaseAPI {
+
+    /**
+     * Check Waiting For Chat Status
+     */
+    async checkWaitingForChatStatusApiV1CheckWaitingForChatStatusPostRaw(requestParameters: CheckWaitingForChatStatusApiV1CheckWaitingForChatStatusPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling checkWaitingForChatStatusApiV1CheckWaitingForChatStatusPost.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.projectId !== undefined) {
+            queryParameters['project_id'] = requestParameters.projectId;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/check_waiting_for_chat_status`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Check Waiting For Chat Status
+     */
+    async checkWaitingForChatStatusApiV1CheckWaitingForChatStatusPost(requestParameters: CheckWaitingForChatStatusApiV1CheckWaitingForChatStatusPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.checkWaitingForChatStatusApiV1CheckWaitingForChatStatusPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Rag Ask

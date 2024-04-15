@@ -22,6 +22,10 @@ import {
     HTTPValidationErrorToJSON,
 } from '../models/index';
 
+export interface CheckIngestionStatusApiV1CheckIngestionStatusPostRequest {
+    projectId: number;
+}
+
 export interface IngestProjectFilesApiV1IngestProjectFilesPostRequest {
     projectId: number;
 }
@@ -30,6 +34,44 @@ export interface IngestProjectFilesApiV1IngestProjectFilesPostRequest {
  * 
  */
 export class IngestApi extends runtime.BaseAPI {
+
+    /**
+     * Check Ingestion Status
+     */
+    async checkIngestionStatusApiV1CheckIngestionStatusPostRaw(requestParameters: CheckIngestionStatusApiV1CheckIngestionStatusPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling checkIngestionStatusApiV1CheckIngestionStatusPost.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.projectId !== undefined) {
+            queryParameters['project_id'] = requestParameters.projectId;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/check_ingestion_status`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Check Ingestion Status
+     */
+    async checkIngestionStatusApiV1CheckIngestionStatusPost(requestParameters: CheckIngestionStatusApiV1CheckIngestionStatusPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.checkIngestionStatusApiV1CheckIngestionStatusPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Ingest Project Files

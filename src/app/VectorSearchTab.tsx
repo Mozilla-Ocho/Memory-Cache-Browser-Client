@@ -103,17 +103,35 @@ function VectorSearchTab() {
   const [dbSearchResults, setDbSearchResults] = useState([]);
   const [query, setQuery] = useState("");
 
-  async function updateVectorDatabase() {
-    if (isLoading) {
-      return;
+  // Use ingestApi.checkIngestionStatusApiV1CheckIngestionStatusPost in a loop to update isLoading
+  useEffect(() => {
+    async function checkIngestionStatus() {
+      const result =
+        await ingestApi.checkIngestionStatusApiV1CheckIngestionStatusPost({
+          projectId: activeProject.id,
+        });
+      console.log(result);
+      if (result.status == "ok") {
+        setIsLoading(result.isIngesting);
+      }
     }
+
+    checkIngestionStatus();
+    const interval = setInterval(() => {
+      checkIngestionStatus();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [activeProject]);
+
+  async function updateVectorDatabase() {
     setIsLoading(true);
     const result =
       await ingestApi.ingestProjectFilesApiV1IngestProjectFilesPost({
         projectId: activeProject.id,
       });
-    setIsLoading(false);
     setShowFinishedLoadingToast(true);
+    setIsLoading(false);
     setTimeout(() => {
       setShowFinishedLoadingToast(false);
     }, 5000);

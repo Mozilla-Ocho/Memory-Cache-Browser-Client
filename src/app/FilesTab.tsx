@@ -3,6 +3,7 @@ import {
   ClipboardDocumentIcon,
 } from "@heroicons/react/24/outline";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
@@ -80,7 +81,6 @@ function FileList({ rerender }) {
   const { activeProject, filesApi } = useContext(ProjectContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [fileList, setFileList] = useState([]);
-  const [projectDirectories, setProjectDirectories] = useState([]);
 
   async function getFileList() {
     const fileList =
@@ -129,12 +129,14 @@ function FileList({ rerender }) {
 }
 
 function FilesTab() {
-  const { activeProject, projectsApi, filesApi } = useContext(ProjectContext);
+  const { activeProject, projectsApi, filesApi, setActiveProject } =
+    useContext(ProjectContext);
   const [projectDirectories, setProjectDirectories] = useState([]);
   const [newDirectoryPath, setNewDirectoryPath] = useState("");
   const [pathInvalid, setPathInvalid] = useState(false);
   const [rerender, setRerender] = useState(Math.random()); // Hack used to force a rerender
   const [refreshButtonText, setRefreshButtonText] = useState("Refresh");
+  const navigate = useNavigate();
 
   async function getProjectDirectories() {
     const projectDirectories =
@@ -163,7 +165,7 @@ function FilesTab() {
   return (
     <div>
       <h1 className="font-light text-lg text-gray-400 mb-4">Directories</h1>
-      <table className={twMerge("w-full my-8")}>
+      <table className={twMerge("w-full mt-4 mb-8")}>
         <tbody className={twMerge("space-y-2")}>
           {projectDirectories.map((directory, i) => (
             <tr className={twMerge(directoryRow)} key={`directory-${i}`}>
@@ -174,18 +176,15 @@ function FilesTab() {
                 <button
                   className={twMerge(buttonBase, buttonColorsDanger)}
                   onClick={async () => {
+                    console.log("Deleting directory", directory);
                     const result =
                       await projectsApi.apiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDelete(
                         {
                           directoryId: directory.id,
                         },
                       );
-                    setProjectDirectories([
-                      projectDirectories.filter(
-                        (projectDirectory) =>
-                          projectDirectory.id !== directory.id,
-                      ),
-                    ]);
+                    await getProjectDirectories();
+                    await refreshFileList();
                     setRerender(Math.random()); // Force rerender because file list needs to be updated
                   }}
                 >
@@ -215,11 +214,7 @@ function FilesTab() {
                       },
                     );
                   getProjectDirectories();
-
-                  // Automatically refresh the file list
-
-                  setRerender(Math.random()); // Force rerender because file list needs to be updated
-
+                  setNewDirectoryPath("");
                   await refreshFileList();
                   setRerender(Math.random()); // Force rerender because file list needs to be updated
                 }}
@@ -275,6 +270,24 @@ function FilesTab() {
         </button>
       </div>
       <FileList rerender={rerender} />
+
+      <h1 className="font-light text-lg text-gray-400 mt-8 mb-4">
+        Project Deletion
+      </h1>
+      <button
+        type="button"
+        className={twMerge(buttonBase, buttonColorsDanger)}
+        onClick={async () => {
+          const result =
+            await projectsApi.deleteProjectApiV1DeleteProjectDelete({
+              projectId: activeProject.id,
+            });
+          setActiveProject(null);
+          navigate("/");
+        }}
+      >
+        Delete Project
+      </button>
     </div>
   );
 }

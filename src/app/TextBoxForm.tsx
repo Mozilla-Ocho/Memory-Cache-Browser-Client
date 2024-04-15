@@ -62,7 +62,6 @@ export default function Example({ onSubmit }) {
   const [text, setText] = useState("");
 
   async function submit() {
-    console.log("submitting", text);
     onSubmit(text);
   }
 

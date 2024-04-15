@@ -59,7 +59,10 @@ export const ProjectProvider: React.FC<ProjectProviderProps> = ({
 
   const reloadProjects = async () => {
     const response = await projectsApi.listProjectsApiV1ListProjectsGet();
-    return setProjects(response.projects);
+    setProjects(response.projects);
+    if (!activeProject && response.projects && response.projects.length > 0) {
+      setActiveProject(response.projects[0]);
+    }
   };
 
   useEffect(() => {

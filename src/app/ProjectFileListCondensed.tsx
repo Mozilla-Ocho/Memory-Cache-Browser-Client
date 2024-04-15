@@ -30,7 +30,6 @@ export default function Example() {
       await filesApi.listProjectFilesApiV1ListProjectFilesProjectIdGet({
         projectId: activeProject.id,
       });
-    console.log(response);
     setFiles(
       response.map((file) => {
         return {

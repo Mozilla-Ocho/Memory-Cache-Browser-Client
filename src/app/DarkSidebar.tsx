@@ -1,8 +1,10 @@
-import { CpuChipIcon } from "@heroicons/react/24/outline";
+import { CpuChipIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useContext, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import MemoryCacheLogo from "../MC-Brainprint1.svg";
 import { ProjectContext } from "./ProjectContext";
+import { toLocalStorage } from "../utils/localStorage";
+import { TABS } from "./ProjectSettings";
 
 const navigation = [{ name: "Models", href: "/models", icon: CpuChipIcon }];
 
@@ -12,12 +14,11 @@ function classNames(...classes) {
 
 function DarkSidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const {
-    projects,
-    activeProject,
-    openNewProjectDialog,
-    setOpenNewProjectDialog,
-  } = useContext(ProjectContext);
+  const { projects, activeProject, projectsApi, setActiveProject } =
+    useContext(ProjectContext);
+
+  const navigate = useNavigate();
+
   const location = useLocation();
   // Function to determine if the nav item is the current page
   const isCurrent = (href) => {
@@ -96,13 +97,66 @@ function DarkSidebar() {
                       </li>
                     ))}
 
-                    <button
-                      onClick={() => setOpenNewProjectDialog(true)}
-                      type="button"
-                      className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                    >
-                      New Cache
-                    </button>
+                    <li key="new-cache-button" className="mt-2 space-y-1 ">
+                      <button
+                        className="w-full text-gray-200 bg-gray-900 hover:text-white hover:bg-gray-800 group flex gap-x-4 rounded-md p-2 text-sm font-semibold items-center"
+                        onClick={async () => {
+                          // Create a new project with a default name,
+                          // Then navigate to the new project page
+                          const randomAdjectives = [
+                            "Red",
+                            "Blue",
+                            "Green",
+                            "Yellow",
+                            "Purple",
+                            "Orange",
+                            "Fun",
+                            "Super",
+                            "Mega",
+                            "Ultra",
+                            "Hyper",
+                            "Giga",
+                            "Tera",
+                            "Studious",
+                            "Silly",
+                            "Serious",
+                            "Happy",
+                          ];
+                          const randomAnimals = [
+                            "Squid",
+                            "Octopus",
+                            "Doggo",
+                            "Kitty",
+                            "Puppy",
+                            "Kitten",
+                            "Panda",
+                            "Bear",
+                            "Lion",
+                            "Tiger",
+                            "Elephant",
+                          ];
+
+                          const randomProjectName = `${randomAdjectives[Math.floor(Math.random() * randomAdjectives.length)]} ${randomAnimals[Math.floor(Math.random() * randomAnimals.length)]}`;
+                          const response =
+                            await projectsApi.createProjectApiV1CreateProjectPost(
+                              {
+                                projectName: randomProjectName,
+                              },
+                            );
+                          if (!response.status === "ok") {
+                            console.warn("Failed to create project", response);
+                          } else {
+                            setActiveProject(response.projects[0]);
+                          }
+                          toLocalStorage("activeTab", TABS.FILES);
+                          navigate(`/projects/${response.projects[0].id}`);
+                        }}
+                        type="button"
+                      >
+                        <PlusIcon className="ml-2 h-4 w-4" aria-hidden="true" />
+                        <span>Create New Cache</span>
+                      </button>
+                    </li>
                   </ul>
                 </li>
                 <li className="hidden -mx-6 mt-auto">
