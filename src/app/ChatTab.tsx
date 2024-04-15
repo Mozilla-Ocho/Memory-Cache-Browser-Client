@@ -100,8 +100,6 @@ function ChatTab() {
 
   return (
     <div>
-      <h1 className="font-light text-lg text-gray-400 my-4">Chat</h1>
-
       {(!runningModelInfo && (
         <p className="bg-red-200 w-full rounded-lg py-4 px-4 flex justify-between items-center">
           No model is running.&nbsp;

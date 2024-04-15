@@ -44,7 +44,7 @@ function DbSearchResult({ result, i, query }) {
         <p className="text-sm font-light mx-4">
           Distance: {Math.round(result.distance * 100) / 100}
         </p>
-        <p className="flex-grow text-sm font-light">
+        <p className="flex-grow text-sm font-light text-right pr-4">
           {getOriginalFilePath(result.file_path)}
         </p>
         <button
@@ -110,7 +110,6 @@ function VectorSearchTab() {
         await ingestApi.checkIngestionStatusApiV1CheckIngestionStatusPost({
           projectId: activeProject.id,
         });
-      console.log(result);
       if (result.status == "ok") {
         setIsLoading(result.isIngesting);
       }
@@ -124,18 +123,41 @@ function VectorSearchTab() {
     return () => clearInterval(interval);
   }, [activeProject]);
 
-  async function updateVectorDatabase() {
+  async function updateVectorDatabase(showToast = true) {
     setIsLoading(true);
     const result =
       await ingestApi.ingestProjectFilesApiV1IngestProjectFilesPost({
         projectId: activeProject.id,
       });
-    setShowFinishedLoadingToast(true);
+    if (showToast) {
+      setShowFinishedLoadingToast(true);
+    }
     setIsLoading(false);
     setTimeout(() => {
-      setShowFinishedLoadingToast(false);
+      if (showToast) {
+        setShowFinishedLoadingToast(false);
+      }
     }, 5000);
   }
+
+  async function isIngestionInProgress() {
+    const result =
+      await ingestApi.checkIngestionStatusApiV1CheckIngestionStatusPost({
+        projectId: activeProject.id,
+      });
+    return result.isIngesting;
+  }
+
+  useEffect(() => {
+    const autoIngest = async () => {
+      const isIngesting = await isIngestionInProgress();
+      if (isIngesting) {
+        return;
+      }
+      updateVectorDatabase(false);
+    };
+    autoIngest();
+  }, [activeProject]);
 
   async function searchVectorDatabase(query: string) {
     const result = await ragApi.vectorDbQueryApiV1VectorDbQueryPost({
@@ -160,6 +182,8 @@ function VectorSearchTab() {
     setQuery("");
   }, [activeProject]);
 
+  const numNewlinesInQuery = (query.match(/\n/g) || []).length;
+
   return (
     <div>
       {showFinishedLoadingToast && (
@@ -170,12 +194,15 @@ function VectorSearchTab() {
           Vector database updated successfully!
         </div>
       )}
-      <div className="flex space-x-4 items-center my-8">
+      <div className="flex space-x-4 items-center my-8 justify-between">
         <h1 className="font-light text-lg text-gray-400">Vector Search</h1>
+        {/* Give the button a tooltip that explains what it does */}
         <button
           type="button"
+          disabled={isLoading}
           onClick={updateVectorDatabase}
           className={twMerge(buttonBase, buttonColorsSecondary)}
+          title="Update the vector database with the latest files"
         >
           <ArrowPathIcon
             className={twMerge(
@@ -186,21 +213,29 @@ function VectorSearchTab() {
           />
         </button>
       </div>
-      <div className="flex justify-between space-x-4 my-4">
-        <input
-          type="text"
-          placeholder="Enter a query"
-          className="border border-gray-200 rounded p-2 w-full"
+      <div className=" space-x-4 my-4">
+        {/* Grow the textarea  to match the size of the input*/}
+        <textarea
+          type="textarea"
+          placeholder="Enter a query to search the vector database"
+          className={twMerge(
+            "block w-full rounded-md border-0 px-2 py-1.5 text-lg shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 ",
+            query.length > 300 || numNewlinesInQuery > 2
+              ? "h-48"
+              : query.length > 100 || numNewlinesInQuery > 0
+                ? "h-24"
+                : "h-12",
+          )}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button
-          type="button"
-          onClick={() => searchVectorDatabase(query)}
-          className={twMerge(buttonBase, buttonColorsPrimary)}
-        >
-          Search
-        </button>
+        {/* <button
+            type="button"
+            onClick={() => searchVectorDatabase(query)}
+            className={twMerge(buttonBase, buttonColorsPrimary)}
+            >
+            Search
+            </button> */}
       </div>
 
       <div className="space-y-4">

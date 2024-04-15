@@ -9,7 +9,6 @@ export function toLocalStorage(key, value) {
 export function fromLocalStorage(key, defaultValue) {
     const value = localStorage.getItem(key);
     if (value === null || value === undefined) {
-        console.log("value is", value, " so returning default:", defaultValue);
         return defaultValue;
     }
     return JSON.parse(value);

@@ -176,7 +176,6 @@ function FilesTab() {
                 <button
                   className={twMerge(buttonBase, buttonColorsDanger)}
                   onClick={async () => {
-                    console.log("Deleting directory", directory);
                     const result =
                       await projectsApi.apiDeleteProjectDirectoryApiV1DeleteProjectDirectoryDelete(
                         {

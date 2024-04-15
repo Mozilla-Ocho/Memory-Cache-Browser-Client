@@ -15,6 +15,6 @@
 ** TODO Show rag results in chat
 ** TODO Save chat history in local storage
 ** DONE Fix download progress
-** TODO Remove large llamafile options
+** DONE Remove large llamafile options
 
 * done
