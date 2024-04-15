@@ -82,3 +82,8 @@ export const linkBase = [
 
 export const linkColor =
     "text-blue-500 visited:text-purple-500 hover:text-blue-700";
+
+export const modelRow =
+    "cursor-pointer hover:bg-gray-200 focus:bg-gray-200 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-gray-500";
+
+export const modelRowActiveColor = "bg-purple-100";

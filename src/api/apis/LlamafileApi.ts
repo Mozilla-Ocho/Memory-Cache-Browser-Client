@@ -86,6 +86,36 @@ export class LlamafileApi extends runtime.BaseAPI {
     }
 
     /**
+     * Api Running Llamafile Info
+     */
+    async apiRunningLlamafileInfoApiV1RunningLlamafileInfoGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/running_llamafile_info`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Api Running Llamafile Info
+     */
+    async apiRunningLlamafileInfoApiV1RunningLlamafileInfoGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.apiRunningLlamafileInfoApiV1RunningLlamafileInfoGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Api Start Llamafile
      */
     async apiStartLlamafileApiV1StartLlamafilePostRaw(requestParameters: ApiStartLlamafileApiV1StartLlamafilePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {

@@ -1,20 +1,22 @@
 import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "./ProjectContext";
-import { linkColor } from "../styles/styles";
+import { linkColor, modelRow, modelRowActiveColor } from "../styles/styles";
 import { twMerge } from "tailwind-merge";
 
-function LlamafileInfoRow({ llamafile }) {
+function LlamafileInfoRow({ llamafile, forceRender, onLlamafileSelected }) {
   const { llamafileApi } = useContext(ProjectContext);
   const [status, setStatus] = useState("idle");
   const [downloadProgress, setDownloadProgress] = useState(0);
 
-  const tableDataStyle = "whitespace-nowrap py-4 text-base text-gray-900";
+  const tableDataStyle = "pl-2 whitespace-nowrap py-4 text-base text-gray-900";
 
   function randomStatus() {
     const statuses = ["idle", "downloading", "absent", "running", "error"];
     return statuses[Math.floor(Math.random() * statuses.length)];
   }
+
+  const isActive = status === "running";
 
   async function getLlamafileStatus() {
     setStatus("loading");
@@ -34,7 +36,7 @@ function LlamafileInfoRow({ llamafile }) {
 
   useEffect(() => {
     getLlamafileStatus();
-  }, [llamafile.name, llamafileApi]);
+  }, [llamafile.name, llamafileApi, forceRender]);
 
   // If the status is "downloading, then check the status every second"
   useEffect(() => {
@@ -58,6 +60,7 @@ function LlamafileInfoRow({ llamafile }) {
       llamafileFilename: llamafile.filename,
     });
     getLlamafileStatus();
+    onLlamafileSelected(llamafile);
   }
 
   async function stop() {
@@ -95,7 +98,30 @@ function LlamafileInfoRow({ llamafile }) {
   // If the status is "downloading", show a spinner and a cancel button
 
   return (
-    <tr className="items-center">
+    <tr
+      className={twMerge(modelRow, isActive ? modelRowActiveColor : "")}
+      onClick={(e) => {
+        switch (status) {
+          case "absent":
+            download();
+            break;
+          case "running":
+            stop();
+            break;
+          case "error":
+            retry();
+            break;
+          case "idle":
+            start();
+            break;
+          case "downloading":
+            cancelDownload();
+            break;
+          default:
+            break;
+        }
+      }}
+    >
       <td className={tableDataStyle}>{llamafile.model}</td>
       <td className={tableDataStyle}>{llamafile.size}</td>
       <td className={tableDataStyle}>{status}</td>
@@ -104,7 +130,10 @@ function LlamafileInfoRow({ llamafile }) {
         <td className={tableDataStyle}>
           <button
             type="button"
-            onClick={download}
+            onClick={(e) => {
+              e.stopPropagation();
+              download();
+            }}
             className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Download
@@ -116,7 +145,10 @@ function LlamafileInfoRow({ llamafile }) {
         <td className={tableDataStyle}>
           <button
             type="button"
-            onClick={stop}
+            onClick={(e) => {
+              e.stopPropagation();
+              stop();
+            }}
             className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Stop
@@ -128,7 +160,10 @@ function LlamafileInfoRow({ llamafile }) {
         <td className={tableDataStyle}>
           <button
             type="button"
-            onClick={retry}
+            onClick={(e) => {
+              e.stopPropagation();
+              retry();
+            }}
             className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Retry
@@ -140,14 +175,20 @@ function LlamafileInfoRow({ llamafile }) {
         <td className={twMerge(tableDataStyle, "flex space-x-2")}>
           <button
             type="button"
-            onClick={start}
+            onClick={(e) => {
+              e.stopPropagation();
+              start();
+            }}
             className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Run
           </button>
           <button
             type="button"
-            onClick={remove}
+            onClick={(e) => {
+              e.stopPropagation();
+              remove();
+            }}
             className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Delete
@@ -159,13 +200,13 @@ function LlamafileInfoRow({ llamafile }) {
         <td className={twMerge(tableDataStyle, "flex space-x-2")}>
           {/* For download progress, always show a fixed size number, which is 3 characters wide */}
           <h2>{`${downloadProgress.toFixed(0).padStart(3)}%`}</h2>
-          <button
-            type="button"
-            onClick={cancelDownload}
-            className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Cancel
-          </button>
+          {/* <button
+              type="button"
+              onClick={cancelDownload}
+              className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+              Cancel
+              </button> */}
         </td>
       )}
     </tr>
@@ -175,6 +216,7 @@ function LlamafileInfoRow({ llamafile }) {
 function Models() {
   const { llamafileApi } = useContext(ProjectContext);
   const [llamafiles, setLlamafiles] = useState([]);
+  const [forceRender, setForceRender] = useState(Math.random()); // HACK to force a re-render
   useEffect(() => {
     async function getLlamafiles() {
       try {
@@ -188,7 +230,17 @@ function Models() {
     getLlamafiles();
   }, [llamafileApi]);
 
-  const tableHeaderStyle = "py-3.5 text-left text-sm font-light text-gray-400";
+  function onLlamafileSelected(llamafile) {
+    console.log("llamafile selected", llamafile);
+    setForceRender(Math.random());
+  }
+
+  // When we click a row, we will download a llamafile (if it is not already downloaded)
+  // Then we will start the llamafile (if it is not already running)
+  // Finally, we will update all the other llamafile rows, because only one llamafile can be running at a time
+
+  const tableHeaderStyle =
+    "pl-2 py-3.5 text-left text-sm font-light text-gray-400";
 
   return (
     <div className="max-w-screen-lg">
@@ -233,6 +285,8 @@ function Models() {
                   <LlamafileInfoRow
                     key={llamafile.filename}
                     llamafile={llamafile}
+                    onLlamafileSelected={onLlamafileSelected}
+                    forceRender={forceRender}
                   />
                 ))}
               </tbody>
