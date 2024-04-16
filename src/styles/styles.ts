@@ -87,3 +87,7 @@ export const modelRow =
     "cursor-pointer hover:bg-gray-200 focus:bg-gray-200 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-gray-500";
 
 export const modelRowActiveColor = "bg-purple-100";
+
+export const tabHeaderText = "text-gray-500 text-2xl font-light";
+export const tabH2Text = "text-gray-500 text-xl font-light";
+export const listItem = "text-gray-900 text-lg font-light";

@@ -1,12 +1,20 @@
-import { CpuChipIcon, PlusIcon } from "@heroicons/react/24/outline";
+import {
+  CpuChipIcon,
+  PlusIcon,
+  BookOpenIcon,
+} from "@heroicons/react/24/outline";
 import { useContext, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import MemoryCacheLogo from "../MC-Brainprint1.svg";
 import { ProjectContext } from "./ProjectContext";
 import { toLocalStorage } from "../utils/localStorage";
 import { TABS } from "./ProjectSettings";
+import { twMerge as tm } from "tailwind-merge";
 
-const navigation = [{ name: "Models", href: "/models", icon: CpuChipIcon }];
+const navigation = [
+  { name: "How To", href: "/", icon: BookOpenIcon },
+  { name: "Models", href: "/models", icon: CpuChipIcon },
+];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -26,6 +34,9 @@ function DarkSidebar() {
     if (href === "/" && location.pathname === "/") {
       return true;
     }
+    if (href === "/") {
+      return false;
+    }
     // Prefix match for other paths, ignoring dynamic segments
     return location.pathname.startsWith(href.replace(/\/:[^\/]+/, ""));
   };
@@ -36,7 +47,12 @@ function DarkSidebar() {
         <div className="fixed inset-y-0 z-50 flex w-72 flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
-            <div className="flex h-16 shrink-0 items-center">
+            <div
+              onClick={() => {
+                navigate("/");
+              }}
+              className={tm("flex h-16 shrink-0 items-center cursor-pointer")}
+            >
               <img
                 className="h-8 w-auto filter invert brightness-0"
                 src={MemoryCacheLogo}
@@ -83,7 +99,7 @@ function DarkSidebar() {
                           href={`/projects/${project.id}`}
                           to={`/projects/${project.id}`}
                           className={classNames(
-                            project.id === activeProject?.id
+                            isCurrent(`/projects/${project.id}`)
                               ? "bg-gray-800 text-white"
                               : "text-gray-400 hover:text-white hover:bg-gray-800",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",

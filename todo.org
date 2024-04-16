@@ -1,20 +1,23 @@
 * todo
+** TODO Add information to the dashboard
+** TODO Save chat history in local storage
+** TODO Show rag results in chat
+** TODO Create demo video
+** TODO Collect files for demo
+** TODO Implement directory picker
+** TODO Add document fragments to collection during ingestion so that Vector Search is immediately available
+** DONE Fix navigation links in sidebar so that only one item is active at a time
+** TODO Move to Mozilla-Ocho org and test/enable github actions
+
+* done
 ** DONE Rename Llamafiles -> Models
 ** DONE Restrict models page width
-** TODO Add information to the dashboard
 ** DONE Make new cache button open page
 ** DONE Auto refresh on directory change
 ** DONE Add ingestion status
 ** DONE Add loading indicator in chat
 ** DONE Add warning if no llamafile is running
 ** DONE Make only one llamafile run at a time
-** TODO Auto-start llamafile if one is not running
-** TODO Create demo video
-** TODO Collect files for demo
-** TODO Implement directory picker
-** TODO Show rag results in chat
-** TODO Save chat history in local storage
+** NO Auto-start llamafile if one is not running
 ** DONE Fix download progress
 ** DONE Remove large llamafile options
-
-* done

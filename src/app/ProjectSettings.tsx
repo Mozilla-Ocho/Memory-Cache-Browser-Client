@@ -30,7 +30,7 @@ const tabs = [
   { id: TABS.CHAT, name: "Chat", component: ChatTab },
 ];
 
-export default function ProjectSettings() {
+function ProjectSettings() {
   const {
     activeProject,
     projectsApi,
@@ -186,3 +186,4 @@ export default function ProjectSettings() {
     </div>
   );
 }
+export default ProjectSettings;
