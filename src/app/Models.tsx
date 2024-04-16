@@ -241,7 +241,7 @@ function Models() {
     "pl-2 py-3.5 text-left text-sm font-light text-gray-400";
 
   return (
-    <div className="max-w-screen-lg">
+    <div className="max-w-screen-md">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-xl font-light text-gray-400 mb-4">Models</h1>

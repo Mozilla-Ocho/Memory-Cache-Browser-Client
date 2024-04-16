@@ -196,7 +196,7 @@ function DarkSidebar() {
         </div>
 
         <main className="pl-72">
-          <div className="py-8 px-8">
+          <div className="py-8 px-10">
             <Outlet />
           </div>
         </main>

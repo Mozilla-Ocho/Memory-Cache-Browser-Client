@@ -68,7 +68,7 @@ function ProjectSettings() {
   }, [activeProject]);
 
   return (
-    <div className="w-full max-w-screen-lg flex flex-col">
+    <div className="w-full max-w-screen-md flex flex-col">
       {(isEditingProjectName && (
         <form
           className="grid grid-cols-3 self-center"

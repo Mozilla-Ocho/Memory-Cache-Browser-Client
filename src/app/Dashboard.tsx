@@ -7,14 +7,22 @@ import { aboutH1, aboutH2, aboutLI, linkColor } from "../styles/styles";
 import { toLocalStorage } from "../utils/localStorage";
 import { TABS } from "./ProjectSettings";
 import { NavLink } from "react-router-dom";
+import MemoryCacheLogo from "../MC-Brainprint1.svg";
 
 function Dashboard() {
   const { projects, activeProject, projectsApi, setActiveProject } =
     useContext(ProjectContext);
   const navigate = useNavigate();
   return (
-    <div className="w-full max-w-screen-lg flex flex-col">
-      <h1 className={tm(aboutH1, "mb-4")}>Memory Cache</h1>
+    <div className="w-full max-w-screen-md flex flex-col">
+      <div className="flex">
+        <img
+          className="h-8 w-auto filter brightness-0"
+          src={MemoryCacheLogo}
+          alt="Memory Cache"
+        />
+        <h1 className={tm(aboutH1, "ml-4 mb-6")}>Memory Cache</h1>
+      </div>
       <p className={tm("text-lg")}>
         Memory Cache is an experimental project exploring personal AI. You can
         learn more on the&nbsp;
@@ -23,7 +31,7 @@ function Dashboard() {
         </a>
         &nbsp;
       </p>
-      <h2 className={tm(aboutH2, "mt-8 mb-3")}>Getting Started</h2>
+      <h2 className={tm(aboutH2, "mt-12 mb-4")}>Getting Started</h2>
       <ul className={tm("list-none list-inside")}>
         <li className={tm(aboutLI)}>
           <span className={tm("flex items-center")}>
@@ -91,38 +99,45 @@ function Dashboard() {
         <li className={tm(aboutLI)}>
           <div className={tm("flex")}>
             <p className={tm("select-none")}>◦&nbsp;&nbsp;</p>
-            <p className={tm("")}>
-              <b>Add directories</b> to your cache by typing their file paths in
-              the input field and clicking "Add Directory".
-            </p>
-          </div>
+            <div className={tm("flex flex-col")}>
+              <p className={tm("")}>
+                <b>Add directories</b> to your cache by typing their file paths
+                in the input field and clicking "Add Directory".
+              </p>
 
-          <ul className={tm("list-none list-inside pl-8 py-2 text-sm")}>
-            <li>
-              <a
-                className={tm(linkColor)}
-                href="https://support.apple.com/guide/mac-help/get-file-folder-and-disk-information-on-mac-mchlp1774/mac#mchl733ed990"
-              >
-                How to find file paths on MacOS
-              </a>
-            </li>
-            <li>
-              <a
-                className={tm(linkColor)}
-                href="https://www.wikihow.com/Find-a-File%27s-Path-on-Windows"
-              >
-                How to find file paths on Windows
-              </a>
-            </li>
-            <li>
-              <a
-                className={tm(linkColor)}
-                href="https://linuxhandbook.com/get-file-path/"
-              >
-                How to find file paths on Linux
-              </a>
-            </li>
-          </ul>
+              <ul className={tm("list-none list-inside pl-8 py-2 text-sm")}>
+                <li>
+                  <a
+                    className={tm(linkColor)}
+                    href="https://support.apple.com/guide/mac-help/get-file-folder-and-disk-information-on-mac-mchlp1774/mac#mchl733ed990"
+                  >
+                    How to find file paths on MacOS
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className={tm(linkColor)}
+                    href="https://www.wikihow.com/Find-a-File%27s-Path-on-Windows"
+                  >
+                    How to find file paths on Windows
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className={tm(linkColor)}
+                    href="https://linuxhandbook.com/get-file-path/"
+                  >
+                    How to find file paths on Linux
+                  </a>
+                </li>
+              </ul>
+              <p className="">
+                Memory Cache will automatically begin <i>ingesting</i> your
+                files, which means breaking them into small fragments and
+                inserting them into a vector database.
+              </p>
+            </div>
+          </div>
         </li>
         <li className={tm(aboutLI)}>
           <div className={tm("flex")}>
