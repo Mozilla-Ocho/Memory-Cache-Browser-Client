@@ -12,7 +12,7 @@ import { TABS } from "./ProjectSettings";
 import { twMerge as tm } from "tailwind-merge";
 
 const navigation = [
-  { name: "How To", href: "/", icon: BookOpenIcon },
+  { name: "About", href: "/", icon: BookOpenIcon },
   { name: "Models", href: "/models", icon: CpuChipIcon },
 ];
 

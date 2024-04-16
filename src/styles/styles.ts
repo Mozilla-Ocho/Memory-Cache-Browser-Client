@@ -88,6 +88,7 @@ export const modelRow =
 
 export const modelRowActiveColor = "bg-purple-100";
 
-export const tabHeaderText = "text-gray-500 text-2xl font-light";
-export const tabH2Text = "text-gray-500 text-xl font-light";
-export const listItem = "text-gray-900 text-lg font-light";
+export const aboutH1 = "text-gray-500 text-2xl font-light";
+export const aboutH2 = "text-gray-500 text-xl font-light";
+export const aboutLI = "text-gray-900 text-lg my-2";
+export const aboutLIP = "inline";
