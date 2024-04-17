@@ -60,25 +60,3 @@ Once you are satisfied with your changes, you can test them with a release build
 
 Further instructions for building releases are in the [Memory Cache Hub README](https://github.com/Mozilla-Ocho/Memory-Cache-Hub/?tab=readme-ov-file#memory-cache-hub)
 
-### TODO
-
-- [x] Add llamafile management to the client
-- [x] Fix selection in client sidebar
-- [x] Add delete project button
-- [x] Reduce indirection in API request params
-- [x] Redo ingestion to support "ProjectDirectory"s
-- [x] Add rag ask api to the client
-- [ ] Create job queue for each project and allow users to view and manage jobs.
-- [ ] Support updating/changing project settings (name, directories, etc).
-
-## Job Queues
-
-A project has a queue of jobs. Each job has a series of tasks that are executed in order. 
-
-For example:
-- Ingest project files. This job will replace old copies of project files and document fragments, copy from the source directories, chunk the files and put the fragments into the chroma db. 
-- Generate summaries. The job will generate summaries for all the documents in the project. Summarizing each document is its own task.
-- Thread. This is a job for a chat. Each reply becomes a task. Each reply can be augmented with fragments or not.
-- Rag Chat. This is a task in a Thread job will run a chroma query to augment a prompt, then run the prompt through the model and save the results.
-- Retrieve. This is a one-off task that will run a chroma query to retrieve documents and save the results. 
-
