@@ -6,7 +6,7 @@ A browser client for [Memory Cache](https://github.com/Mozilla-Ocho/Memory-Cache
 
 Memory Cache Browser Client is a frontend component of Memory Cache:
 
-- It sends commands and displays information from [Memory Cache Hub](https://github.com/johnshaughnessy/Memory-Cache-Hub/).
+- It sends commands and displays information from [Memory Cache Hub](https://github.com/Mozilla-Ocho/Memory-Cache-Hub/).
 - It allows users to view and manage project artifacts, llamafiles, and settings.
 - It allows users to query LLMs using Retrieval Augmented Generation.
 - It allows users to view and manage prompt templates and long-running background tasks.
@@ -15,7 +15,7 @@ Memory Cache Browser Client is a frontend component of Memory Cache:
 
 Memory Cache Browser Client is included in each release of Memory Cache Hub, so you do not need to install it separately.
 
-To install Memory Cache Hub, follow the instructions in the [Memory Cache Hub README](https://github.com/johnshaughnessy/Memory-Cache-Hub/?tab=readme-ov-file#memory-cache-hub).
+To install Memory Cache Hub, follow the instructions in the [Memory Cache Hub README](https://github.com/Mozilla-Ocho/Memory-Cache-Hub/?tab=readme-ov-file#memory-cache-hub).
 
 A Firefox browser extension for Memory Cache that extends its functionality is also available. More information can be found in the main [Memory Cache repository](https://github.com/Mozilla-Ocho/Memory-Cache).
 
@@ -58,7 +58,7 @@ While you are developing Memory Cache Browser Client, the third option is the mo
 
 Once you are satisfied with your changes, you can test them with a release build of Memory Cache Hub by running `npm run build` and targeting the `build` directory with the `--client-path` argument to Memory Cache Hub.
 
-Further instructions for building releases are in the [Memory Cache Hub README](https://github.com/johnshaughnessy/Memory-Cache-Hub/?tab=readme-ov-file#memory-cache-hub)
+Further instructions for building releases are in the [Memory Cache Hub README](https://github.com/Mozilla-Ocho/Memory-Cache-Hub/?tab=readme-ov-file#memory-cache-hub)
 
 ### TODO
 
